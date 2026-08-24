@@ -1,0 +1,23 @@
+{
+  "name": "lima-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3600",
+    "build": "vite build",
+    "preview": "vite preview --port 3600"
+  },
+  "dependencies": {
+    "lenis": "^1.1.20",
+    "lucide-react": "^0.460.0",
+    "motion": "^11.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.0",
+    "vite": "^6.0.7"
+  }
+}

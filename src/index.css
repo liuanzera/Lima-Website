@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+/* ---- Fonts -------------------------------------------------------------- */
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url('/fonts/CooperHewitt-Book.otf') format('opentype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url('/fonts/CooperHewitt-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url('/fonts/CooperHewitt-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url('/fonts/CooperHewitt-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cooper Hewitt';
+  src: url('/fonts/CooperHewitt-Heavy.otf') format('opentype');
+  font-weight: 900;
+  font-display: swap;
+}
+
+/* ---- Design tokens (straight from the Figma frames) --------------------- */
+@theme {
+  --font-display: 'Cooper Hewitt', 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --color-ink: #142900;
+  --color-ink-deep: #0e1c00;
+  --color-lime: #b8ff70;
+  --color-lime-vivid: #a3ff47;
+  --color-lime-soft: #ccff99;
+  --color-lime-pale: #e0ffc2;
+  --color-lime-mist: #f0ffe1;
+  --color-lime-snow: #f5ffeb;
+  --color-page: #efeeef;
+  --color-slate-body: #52554e;
+  --color-slate-strong: #3d403b;
+  --color-slate-faint: #ccceca;
+  --color-slate-muted: #b8bab5;
+  --color-hairline: #d9d9d9;
+
+  /* 1276px content + 82px gutters = the 1440 frame, centred like the 1920 one */
+  --spacing-gutter: 82px;
+
+  --breakpoint-tablet: 768px;
+  --breakpoint-desk: 1024px;
+  --breakpoint-wide: 1280px;
+}
+
+/* ---- Base --------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: var(--color-page);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-lime-vivid);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Content column: 1276px max, 82px gutters on desktop, tighter on phones. */
+  .shell {
+    width: 100%;
+    max-width: calc(1276px + var(--gx) * 2);
+    margin-inline: auto;
+    padding-inline: var(--gx);
+    --gx: 20px;
+  }
+  @media (min-width: 768px) {
+    .shell {
+      --gx: 40px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .shell {
+      --gx: var(--spacing-gutter);
+    }
+  }
+
+  /* Fluid type ramps: mobile value -> Figma desktop value, no zoom hack. */
+  .t-hero {
+    font-size: clamp(2.35rem, 1.1rem + 4.4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+  }
+  .t-h2 {
+    font-size: clamp(2rem, 0.95rem + 3.6vw, 3.5625rem);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    font-weight: 900;
+  }
+  .t-h3 {
+    font-size: clamp(1.75rem, 1.05rem + 2.4vw, 3.375rem);
+    line-height: 1.15;
+    font-weight: 600;
+  }
+  .t-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.33em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  .t-lead {
+    font-size: clamp(1rem, 0.85rem + 0.6vw, 1.5rem);
+    line-height: 1.5;
+    letter-spacing: -0.033em;
+    font-weight: 500;
+  }
+  .t-body {
+    font-size: clamp(0.9375rem, 0.88rem + 0.25vw, 1.125rem);
+    line-height: 1.5;
+  }
+}
+
+/* ---- Marquee ------------------------------------------------------------ */
+@keyframes marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: marquee-x var(--marquee-duration, 38s) linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ---- FAQ accordion ------------------------------------------------------ */
+/* Native <details> animation where the browser supports it; instant elsewhere. */
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.35s cubic-bezier(0.22, 1, 0.36, 1), content-visibility 0.35s allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+}
