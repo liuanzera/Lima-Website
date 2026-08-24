@@ -1,4 +1,5 @@
 import PillButton from '../components/PillButton.jsx'
+import StoreBadges from '../components/StoreBadges.jsx'
 import Reveal from '../components/Reveal.jsx'
 
 /**
@@ -39,6 +40,18 @@ export default function Download() {
           aria-hidden="true"
           loading="lazy"
           className="block w-[346%] max-w-none -ml-[167.3%] select-none mix-blend-multiply desk:-ml-[6.04%] desk:w-[111.8%]"
+        />
+      </div>
+
+      {/*
+        Badges sit on the artwork, ~28px off the bottom edge of the section.
+        The frames size them 162.1x58.7 on the 398 phone and 232x84 from the
+        1049 tablet up; both SVGs are exactly 232x84, so height alone is enough.
+      */}
+      <div className="absolute inset-x-0 bottom-[27px] z-10 flex justify-center desk:bottom-[30px]">
+        <StoreBadges
+          height="clamp(58.7px, 42.6px + 4.04vw, 84px)"
+          gap="clamp(11.8px, 8.5px + 0.83vw, 17px)"
         />
       </div>
     </section>

@@ -1,7 +1,7 @@
 /** App Store / Google Play badges, exported straight from the Figma frame. */
-export default function StoreBadges({ className = '', height = 52 }) {
+export default function StoreBadges({ className = '', height = 52, gap = 10 }) {
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div className={`flex items-center ${className}`} style={{ gap }}>
       <a className="block" href="#pricing" aria-label="Download on the App Store">
         <img
           src="/assets/badge-appstore.svg"
