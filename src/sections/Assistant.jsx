@@ -57,11 +57,13 @@ export default function Assistant() {
   const locked = useRef(false)
   const tracked = useTransform(scrollYProgress, (v) => (locked.current ? 1 : v))
   const raw = useTransform(tracked, [0, 1], cinematic ? [-941, 0] : [0, 0])
-  const y = useSpring(raw, { stiffness: 70, damping: 20, mass: 0.8 })
+  // Stiff enough to stay under the scroll over 941px of travel — a softer
+  // spring lags so far behind that a quick scroll leaves the handset off-screen.
+  const y = useSpring(raw, { stiffness: 150, damping: 26, mass: 0.5 })
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    if (v >= 0.99) locked.current = true
-    if (v >= 0.82 && !arrived) setArrived(true)
+    if (v >= 0.9) locked.current = true
+    if (v >= 0.8 && !arrived) setArrived(true)
   })
 
   // Desktop: the copy lands with the handset. Mobile: each block reveals on its own.
@@ -106,7 +108,7 @@ export default function Assistant() {
           <motion.img
             src="/assets/phone-ai.webp"
             alt="Chat with the Lima AI assistant"
-            className="relative -z-10 mx-auto w-[min(411px,78vw)] drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+            className="relative mx-auto w-[min(411px,78vw)] will-change-transform drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
             style={{ y }}
           />
         ) : (
