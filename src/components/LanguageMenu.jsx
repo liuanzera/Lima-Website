@@ -15,7 +15,7 @@ export const LANGUAGES = [
  * Globe dropdown in the desktop and tablet nav. The selection is owned by Nav
  * so the mobile sheet's picker and this one stay in sync.
  */
-export default function LanguageMenu({ value, onChange }) {
+export default function LanguageMenu({ value, onChange, dark = false }) {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 
@@ -41,7 +41,9 @@ export default function LanguageMenu({ value, onChange }) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label={`Language: ${LANGUAGES.find((l) => l.code === value).label}`}
-        className="flex items-center gap-0.5 rounded-full px-1 py-1 text-ink/80 transition-colors hover:text-ink"
+        className={`flex items-center gap-0.5 rounded-full px-1 py-1 transition-colors duration-250 ${
+          dark ? 'text-lime-mist hover:text-lime' : 'text-ink/80 hover:text-ink'
+        }`}
       >
         <Globe className="size-[27px]" strokeWidth={1.6} />
         <ChevronDown
