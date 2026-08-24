@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { EASE } from '../motion.js'
 import { Check } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
 
@@ -18,7 +19,7 @@ const ROWS = [
             initial={{ width: 0 }}
             whileInView={{ width: '62%' }}
             viewport={{ once: true, amount: 0.9 }}
-            transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1, delay: 0.15, ease: EASE }}
           />
         </div>
       </>
@@ -77,7 +78,7 @@ const ROWS = [
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.9 }}
-            transition={{ duration: 0.55, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.55, delay: 0.25, ease: EASE }}
           />
         </span>
         <p className="ml-auto shrink-0 rounded bg-[#f5f08a] px-1.5 py-0.5 text-[10px] font-semibold leading-[13px] text-ink-deep">
@@ -135,7 +136,7 @@ export default function Timeline() {
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.5, delay: i * 0.07, ease: EASE }}
                 >
                   <span className="w-[38px] shrink-0 pt-[15px] text-[11px] font-semibold leading-4 text-ink-deep tablet:w-[46px]">
                     {row.time}

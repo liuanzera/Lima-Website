@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { EASE as ease } from '../motion.js'
 import {
   motion,
   useMotionValueEvent,
@@ -23,7 +24,6 @@ import {
  * around while someone is reading it, so there the three blocks simply reveal
  * in reading order: copy, handset, WhatsApp copy.
  */
-const ease = [0.22, 1, 0.36, 1]
 const DESK = '(min-width: 1024px)'
 
 function useIsDesktop() {

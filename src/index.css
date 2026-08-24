@@ -55,6 +55,9 @@
   /* 1276px content + 82px gutters = the 1440 frame, centred like the 1920 one */
   --spacing-gutter: 82px;
 
+  /* Same curve as the JS `EASE` in src/motion.js. */
+  --ease-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
   --breakpoint-tablet: 768px;
   --breakpoint-desk: 1024px;
   --breakpoint-wide: 1280px;
@@ -187,7 +190,7 @@
   .faq-item::details-content {
     block-size: 0;
     overflow: clip;
-    transition: block-size 0.35s cubic-bezier(0.22, 1, 0.36, 1), content-visibility 0.35s allow-discrete;
+    transition: block-size 0.35s var(--ease-expo), content-visibility 0.35s allow-discrete;
   }
   .faq-item[open]::details-content {
     block-size: auto;

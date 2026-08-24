@@ -33,7 +33,7 @@ const LINKS = [
 // No rule at rest — it wipes in from the left on hover/focus. The entry you
 // picked keeps it, and turns lime.
 const LINK_BASE =
-  "relative inline-block font-display text-[34px] font-semibold transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] after:content-['']"
+  "relative inline-block font-display text-[34px] font-semibold transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-300 after:ease-expo after:content-['']"
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -178,7 +178,7 @@ export default function Nav() {
                   >
                     Language
                     <ChevronDown
-                      className={`size-7 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                      className={`size-7 transition-transform duration-300 ease-expo ${
                         langOpen ? '-rotate-180' : ''
                       }`}
                       strokeWidth={2.2}

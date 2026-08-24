@@ -36,7 +36,7 @@ export default function PillButton({
     >
       <span>{children}</span>
       <span
-        className={`grid place-items-center rounded-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 ${t.dot} ${s.dot}`}
+        className={`grid place-items-center rounded-full transition-transform duration-300 ease-expo group-hover:rotate-45 ${t.dot} ${s.dot}`}
         aria-hidden="true"
       >
         <ArrowUpRight className="size-[55%]" strokeWidth={2.2} />

@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { EASE } from '../../motion.js'
 
 /** The 84 cells, in the exact order the Figma grid uses. */
 const CELLS =
@@ -33,7 +34,7 @@ export default function CommunityCard() {
             viewport={{ once: true, amount: 0.4 }}
             // One cell at a time, left to right: 84 x 10ms fills the grid in
             // well under a second.
-            transition={{ duration: 0.22, delay: i * 0.01, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.22, delay: i * 0.01, ease: EASE }}
           />
         ))}
       </div>

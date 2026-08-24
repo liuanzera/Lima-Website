@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { EASE } from '../motion.js'
 
 const OFFSET = { up: { y: 28 }, left: { x: -28 }, right: { x: 28 }, none: {} }
 
@@ -21,7 +22,7 @@ export default function Reveal({
       initial={{ opacity: 0, ...OFFSET[from] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, amount }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
     >
       {children}
     </Tag>

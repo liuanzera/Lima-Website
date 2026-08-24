@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { EASE as ease } from '../motion.js'
 import { AnimatePresence, motion } from 'motion/react'
 import { Check, ChevronDown, Globe } from 'lucide-react'
 
-const ease = [0.22, 1, 0.36, 1]
 
 // Demo only — no i18n wired up behind it yet.
 export const LANGUAGES = [
@@ -43,7 +43,7 @@ export default function LanguageMenu() {
       >
         <Globe className="size-[27px]" strokeWidth={1.6} />
         <ChevronDown
-          className={`size-[23px] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`size-[23px] transition-transform duration-300 ease-expo ${
             open ? '-rotate-180' : ''
           }`}
           strokeWidth={1.6}

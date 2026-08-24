@@ -1,10 +1,10 @@
 import { useRef } from 'react'
+import { EASE as ease } from '../motion.js'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
 import StoreBadges from '../components/StoreBadges.jsx'
 
 const RISE = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } }
-const ease = [0.22, 1, 0.36, 1]
 
 /**
  * Frame "Desktop - 2" / "iPhone 16 - 1".

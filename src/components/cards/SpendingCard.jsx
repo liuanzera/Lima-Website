@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { EASE } from '../../motion.js'
 
 const LINES = [
   { label: 'Groceries', value: 'R$ 340', width: '68%', color: '#d2ff1f' },
@@ -28,7 +29,7 @@ export default function SpendingCard() {
                 initial={{ width: 0 }}
                 whileInView={{ width: line.width }}
                 viewport={{ once: true, amount: 0.8 }}
-                transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: EASE }}
               />
             </div>
           </li>

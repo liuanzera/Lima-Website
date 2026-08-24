@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { EASE } from '../motion.js'
 import PillButton from '../components/PillButton.jsx'
 import Reveal from '../components/Reveal.jsx'
 import SpendingCard from '../components/cards/SpendingCard.jsx'
@@ -57,7 +58,7 @@ export default function Modules() {
                   initial={{ opacity: 0, y: 34 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.75, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+                  transition={{ duration: 0.75, delay: 0.12, ease: EASE }}
                 >
                   <Card />
                 </motion.div>
