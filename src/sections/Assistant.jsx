@@ -104,25 +104,27 @@ export default function Assistant() {
           </p>
         </motion.div>
 
-        {cinematic ? (
-          <motion.img
-            src="/assets/phone-ai.webp"
-            alt="Chat with the Lima AI assistant"
-            className="relative mx-auto w-[min(411px,78vw)] will-change-transform drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
-            style={{ y }}
-          />
-        ) : (
-          <motion.img
-            src="/assets/phone-ai.webp"
-            alt="Chat with the Lima AI assistant"
-            loading="lazy"
-            className="relative mx-auto w-[min(411px,78vw)] drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, ease }}
-          />
-        )}
+        {/*
+          One element either way, and its opacity is never animated: an 848px
+          handset that starts transparent has no safe failure mode — if the
+          reveal does not fire, the section just shows a hole. Only the
+          transform moves.
+        */}
+        <motion.img
+          src="/assets/phone-ai.webp"
+          alt="Chat with the Lima AI assistant"
+          width={411}
+          height={848}
+          className="relative mx-auto w-[min(411px,78vw)] will-change-transform drop-shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+          {...(cinematic
+            ? { style: { y } }
+            : {
+                initial: { y: 32 },
+                whileInView: { y: 0 },
+                viewport: { once: true, amount: 0.2 },
+                transition: { duration: 0.7, ease },
+              })}
+        />
 
         <motion.div className="max-w-[345px] desk:self-end desk:pb-[22px]" {...copy(0.35)}>
           <h2 className="font-display text-[clamp(2rem,1.2rem+2.4vw,3.375rem)] font-semibold leading-[1.2] text-lime">
