@@ -1,5 +1,5 @@
-import { motion } from 'motion/react'
-import { EASE } from '../../motion.js'
+import { m } from 'motion/react'
+import { DURATION, EASE } from '../../motion.js'
 
 const LINES = [
   { label: 'Groceries', value: 'R$ 340', width: '68%', color: '#d2ff1f' },
@@ -23,13 +23,19 @@ export default function SpendingCard() {
               <span className="text-sm leading-5 text-ink-deep">{line.value}</span>
             </div>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-lime-mist">
-              <motion.div
-                className="h-full rounded-full"
-                style={{ background: line.color }}
-                initial={{ width: 0 }}
-                whileInView={{ width: line.width }}
+              {/* scaleX rather than width: a width tween relayouts the card
+                  on every frame, a transform stays on the compositor. */}
+              <m.div
+                className="h-full origin-left rounded-full"
+                style={{ background: line.color, width: line.width }}
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
                 viewport={{ once: true, amount: 0.8 }}
-                transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: EASE }}
+                transition={{
+                  duration: DURATION.verySlow,
+                  delay: DURATION.micro + i * DURATION.stagger,
+                  ease: EASE,
+                }}
               />
             </div>
           </li>

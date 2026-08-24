@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, m } from 'motion/react'
 import { Check, ChevronDown, Menu, X } from 'lucide-react'
 import PillButton from './PillButton.jsx'
 import LanguageMenu, { LANGUAGES } from './LanguageMenu.jsx'
+import { DISTANCE, DURATION, EASE } from '../motion.js'
 
 // Opening geometry lifted from the Swup parallel-transition the client picked:
 // the panel rises with its top clipped away. Travel and duration are dialled
 // back from the source values — a full 50dvh over 1.4s reads as heavy on a
 // menu, and the shorter distance keeps the whole wipe inside one smooth arc.
-const SHEET_EASE = [0.4, 0.3, 0, 1]
-const SHEET_DURATION = 0.72
 const SHEET = {
   // Opening wipe: the panel rises with its top half clipped off.
   hidden: { y: '28dvh', clipPath: 'inset(55% 0% 0% 0%)' },
   shown: { y: '0dvh', clipPath: 'inset(0% 0% 0% 0%)' },
   // Closing has to reach inset(100%) — leaving it at 55% keeps the bottom
   // half of the list on screen right up to the moment it is unmounted, which
-  // is what made the close read as a stutter.
+  // is what made the close read as a stutter. It also runs shorter than the
+  // open: getting out of the way should never take as long as arriving.
   gone: {
     y: '18dvh',
     clipPath: 'inset(100% 0% 0% 0%)',
-    transition: { duration: 0.52, ease: SHEET_EASE },
+    transition: { duration: DURATION.medium, ease: EASE },
   },
 }
 
@@ -33,7 +33,7 @@ const LINKS = [
 // No rule at rest — it wipes in from the left on hover/focus. The entry you
 // picked keeps it, and turns lime.
 const LINK_BASE =
-  "relative inline-block font-display text-[34px] font-semibold transition-colors duration-300 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-300 after:ease-expo after:content-['']"
+  "relative inline-block font-display text-[34px] font-semibold transition-colors duration-250 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-250 after:ease-expo after:content-['']"
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -77,7 +77,9 @@ export default function Nav() {
               <li key={l.label}>
                 <a
                   href={l.href}
-                  className="relative text-lg font-medium tracking-[-0.028em] text-ink after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-ink after:transition-[width] after:duration-300 hover:after:w-full"
+                  // scale-x, not width: animating width relayouts the line on
+                  // every frame, the transform runs on the compositor.
+                  className="relative text-lg font-medium tracking-[-0.028em] text-ink after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-ink after:transition-transform after:duration-250 after:ease-expo after:content-[''] hover:after:scale-x-100"
                 >
                   {l.label}
                 </a>
@@ -112,7 +114,7 @@ export default function Nav() {
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             key="sheet"
             role="dialog"
             aria-modal="true"
@@ -121,7 +123,7 @@ export default function Nav() {
             initial={SHEET.hidden}
             animate={SHEET.shown}
             exit={SHEET.gone}
-            transition={{ duration: SHEET_DURATION, ease: SHEET_EASE }}
+            transition={{ duration: DURATION.slow, ease: EASE }}
           >
             <div className="flex justify-end">
               <button
@@ -141,11 +143,15 @@ export default function Nav() {
             <nav aria-label="Mobile" className="mt-14">
               <ul className="flex flex-col gap-8">
                 {LINKS.map((l, i) => (
-                  <motion.li
+                  <m.li
                     key={l.label}
-                    initial={{ opacity: 0, x: -16 }}
+                    initial={{ opacity: 0, x: -DISTANCE.medium }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.16 + i * 0.05, duration: 0.42, ease: SHEET_EASE }}
+                    transition={{
+                      delay: DURATION.micro + i * DURATION.stagger,
+                      duration: DURATION.fast,
+                      ease: EASE,
+                    }}
                   >
                     <a
                       href={l.href}
@@ -162,23 +168,27 @@ export default function Nav() {
                     >
                       {l.label}
                     </a>
-                  </motion.li>
+                  </m.li>
                 ))}
 
-                <motion.li
-                  initial={{ opacity: 0, x: -16 }}
+                <m.li
+                  initial={{ opacity: 0, x: -DISTANCE.medium }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.31, duration: 0.42, ease: SHEET_EASE }}
+                  transition={{
+                    delay: DURATION.micro + 3 * DURATION.stagger,
+                    duration: DURATION.fast,
+                    ease: EASE,
+                  }}
                 >
                   <button
                     type="button"
                     onClick={() => setLangOpen((v) => !v)}
                     aria-expanded={langOpen}
-                    className="flex items-center gap-3 font-display text-[34px] font-semibold text-white transition-colors duration-300 hover:text-lime"
+                    className="flex items-center gap-3 font-display text-[34px] font-semibold text-white transition-colors duration-250 hover:text-lime"
                   >
                     Language
                     <ChevronDown
-                      className={`size-7 transition-transform duration-300 ease-expo ${
+                      className={`size-7 transition-transform duration-250 ease-expo ${
                         langOpen ? '-rotate-180' : ''
                       }`}
                       strokeWidth={2.2}
@@ -187,29 +197,29 @@ export default function Nav() {
 
                   <AnimatePresence initial={false}>
                     {langOpen && (
-                      <motion.ul
+                      <m.ul
                         className="overflow-hidden"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.34, ease: SHEET_EASE }}
+                        transition={{ duration: DURATION.fast, ease: EASE }}
                       >
                         {LANGUAGES.map((l, i) => (
-                          <motion.li
+                          <m.li
                             key={l.code}
-                            initial={{ opacity: 0, x: -12 }}
+                            initial={{ opacity: 0, x: -DISTANCE.medium }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
-                              delay: 0.05 + i * 0.05,
-                              duration: 0.3,
-                              ease: SHEET_EASE,
+                              delay: i * DURATION.stagger,
+                              duration: DURATION.fast,
+                              ease: EASE,
                             }}
                           >
                             <button
                               type="button"
                               onClick={() => setLang(l.code)}
                               aria-pressed={lang === l.code}
-                              className={`mt-5 flex w-full items-center gap-3 text-left text-xl font-medium transition-colors duration-300 ${
+                              className={`mt-5 flex w-full items-center gap-3 text-left text-xl font-medium transition-colors duration-250 ${
                                 lang === l.code ? 'text-lime' : 'text-white/60 hover:text-lime'
                               }`}
                             >
@@ -218,12 +228,12 @@ export default function Nav() {
                                 <Check className="size-5" strokeWidth={2.6} aria-hidden="true" />
                               )}
                             </button>
-                          </motion.li>
+                          </m.li>
                         ))}
-                      </motion.ul>
+                      </m.ul>
                     )}
                   </AnimatePresence>
-                </motion.li>
+                </m.li>
               </ul>
             </nav>
 
@@ -233,7 +243,7 @@ export default function Nav() {
               </PillButton>
               <p className="mt-6 text-sm text-slate-faint">© 2026 Lima. All rights reserved.</p>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </header>

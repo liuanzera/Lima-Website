@@ -31,12 +31,12 @@ export default function PillButton({
   return (
     <a
       href={href}
-      className={`group inline-flex shrink-0 items-center gap-4 rounded-full font-semibold tracking-[-0.025em] transition-colors duration-300 ${t.shell} ${s.shell} ${className}`}
+      className={`group inline-flex shrink-0 items-center gap-4 rounded-full font-semibold tracking-[-0.025em] transition-colors duration-250 ${t.shell} ${s.shell} ${className}`}
       {...rest}
     >
       <span>{children}</span>
       <span
-        className={`grid place-items-center rounded-full transition-transform duration-300 ease-expo group-hover:rotate-45 ${t.dot} ${s.dot}`}
+        className={`grid place-items-center rounded-full transition-transform duration-250 ease-expo group-hover:rotate-45 ${t.dot} ${s.dot}`}
         aria-hidden="true"
       >
         <ArrowUpRight className="size-[55%]" strokeWidth={2.2} />

@@ -1,33 +1,28 @@
 @import 'tailwindcss';
 
 /* ---- Fonts -------------------------------------------------------------- */
+/* Only the four weights the page actually asks for; Medium (500) went unused. */
 @font-face {
   font-family: 'Cooper Hewitt';
-  src: url('/fonts/CooperHewitt-Book.otf') format('opentype');
+  src: url('/fonts/CooperHewitt-Book.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cooper Hewitt';
-  src: url('/fonts/CooperHewitt-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Cooper Hewitt';
-  src: url('/fonts/CooperHewitt-Semibold.otf') format('opentype');
+  src: url('/fonts/CooperHewitt-Semibold.woff2') format('woff2');
   font-weight: 600;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cooper Hewitt';
-  src: url('/fonts/CooperHewitt-Bold.otf') format('opentype');
+  src: url('/fonts/CooperHewitt-Bold.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
 }
 @font-face {
   font-family: 'Cooper Hewitt';
-  src: url('/fonts/CooperHewitt-Heavy.otf') format('opentype');
+  src: url('/fonts/CooperHewitt-Heavy.woff2') format('woff2');
   font-weight: 900;
   font-display: swap;
 }
@@ -194,5 +189,29 @@
   }
   .faq-item[open]::details-content {
     block-size: auto;
+  }
+}
+
+/* ---- Community heatmap --------------------------------------------------- */
+/* 84 cells popping in 10ms apart, driven by one class flip instead of 84
+   JS-animated values. */
+.heatmap > span {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.heatmap.is-on > span {
+  animation: cell-pop 0.22s var(--ease-expo) forwards;
+  animation-delay: calc(var(--cell) * 10ms);
+}
+@keyframes cell-pop {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heatmap > span {
+    opacity: 1;
+    transform: none;
   }
 }

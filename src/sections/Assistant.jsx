@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { EASE as ease } from '../motion.js'
+import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
 import {
-  motion,
+  m,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
@@ -70,15 +70,15 @@ export default function Assistant() {
   const copy = (delay) =>
     cinematic
       ? {
-          initial: { opacity: 0, y: 20 },
-          animate: arrived ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
-          transition: { duration: 0.6, delay, ease },
+          initial: { opacity: 0, y: DISTANCE.medium },
+          animate: arrived ? { opacity: 1, y: 0 } : { opacity: 0, y: DISTANCE.medium },
+          transition: { duration: DURATION.verySlow, delay, ease },
         }
       : {
-          initial: { opacity: 0, y: 24 },
+          initial: { opacity: 0, y: DISTANCE.medium },
           whileInView: { opacity: 1, y: 0 },
           viewport: { once: true, amount: 0.3 },
-          transition: { duration: 0.6, ease },
+          transition: { duration: DURATION.verySlow, ease },
         }
 
   return (
@@ -93,7 +93,7 @@ export default function Assistant() {
       </div>
 
       <div className="relative mx-auto flex w-full max-w-[1224px] flex-col gap-12 px-5 tablet:px-10 desk:grid desk:grid-cols-[351px_1fr_345px] desk:items-start desk:gap-8 desk:px-6">
-        <motion.div className="max-w-[351px] desk:pt-[60px]" {...copy(0)}>
+        <m.div className="max-w-[351px] desk:pt-[60px]" {...copy(0)}>
           <p className="t-eyebrow text-lime-soft">AI Assistant</p>
           <h2 className="mt-4 font-display text-[clamp(2rem,1.2rem+2.4vw,3.375rem)] font-semibold leading-[1.2] text-lime">
             You say it. Lima does it.
@@ -102,7 +102,7 @@ export default function Assistant() {
             More than a chatbot, it's your account assistant. It creates tasks, tracks habits, logs
             expenses, and answers using your data. Ask two questions at once, and it manages both.
           </p>
-        </motion.div>
+        </m.div>
 
         {/*
           One element either way, and its opacity is never animated: an 848px
@@ -110,7 +110,7 @@ export default function Assistant() {
           reveal does not fire, the section just shows a hole. Only the
           transform moves.
         */}
-        <motion.img
+        <m.img
           src="/assets/phone-ai.webp"
           alt="Chat with the Lima AI assistant"
           width={411}
@@ -122,11 +122,11 @@ export default function Assistant() {
                 initial: { y: 32 },
                 whileInView: { y: 0 },
                 viewport: { once: true, amount: 0.2 },
-                transition: { duration: 0.7, ease },
+                transition: { duration: DURATION.verySlow, ease },
               })}
         />
 
-        <motion.div className="max-w-[345px] desk:self-end desk:pb-[22px]" {...copy(0.35)}>
+        <m.div className="max-w-[345px] desk:self-end desk:pb-[22px]" {...copy(0.35)}>
           <h2 className="font-display text-[clamp(2rem,1.2rem+2.4vw,3.375rem)] font-semibold leading-[1.2] text-lime">
             It also lives
             <br className="hidden desk:block" /> on WhatsApp
@@ -135,7 +135,7 @@ export default function Assistant() {
             link your number and log anything by message, photo or voice note. Send a bank statement
             photo and Lima reads it and logs every transaction automatically.
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

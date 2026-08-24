@@ -7,7 +7,7 @@ export default function StoreBadges({ className = '', height = 52, gap = 10 }) {
           src="/assets/badge-appstore.svg"
           alt=""
           style={{ height }}
-          className="block w-auto transition-transform duration-300 hover:-translate-y-0.5"
+          className="block w-auto transition-transform duration-250 hover:-translate-y-0.5"
         />
       </a>
       <a className="block" href="#pricing" aria-label="Get it on Google Play">
@@ -15,7 +15,7 @@ export default function StoreBadges({ className = '', height = 52, gap = 10 }) {
           src="/assets/badge-googleplay.svg"
           alt=""
           style={{ height }}
-          className="block w-auto transition-transform duration-300 hover:-translate-y-0.5"
+          className="block w-auto transition-transform duration-250 hover:-translate-y-0.5"
         />
       </a>
     </div>

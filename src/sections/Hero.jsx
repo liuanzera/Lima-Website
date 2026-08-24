@@ -1,10 +1,10 @@
 import { useRef } from 'react'
-import { EASE as ease } from '../motion.js'
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
+import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
+import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
 import StoreBadges from '../components/StoreBadges.jsx'
 
-const RISE = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } }
+const RISE = { initial: { opacity: 0, y: DISTANCE.medium }, animate: { opacity: 1, y: 0 } }
 
 /**
  * Frame "Desktop - 2" / "iPhone 16 - 1".
@@ -30,14 +30,14 @@ const PHONES = [
     src: '/assets/phone-left.webp',
     alt: 'Lima community profile',
     className: 'left-0 top-[7.96%] z-10 w-[49.2%]',
-    delay: 0.12,
+    delay: DURATION.micro,
     drift: 150,
   },
   {
     src: '/assets/phone-right.webp',
     alt: 'Lima calendar',
     className: 'left-[50.8%] top-[7.96%] z-10 w-[49.2%]',
-    delay: 0.24,
+    delay: 2 * DURATION.micro,
     drift: 150,
   },
 ]
@@ -72,36 +72,36 @@ export default function Hero() {
       className="relative overflow-hidden bg-page pt-[153px] desk:pt-[169px]"
     >
       <div className="shell flex flex-col items-center text-center">
-        <motion.div {...RISE} transition={{ duration: 0.6, ease }}>
+        <m.div {...RISE} transition={{ duration: DURATION.verySlow, ease }}>
           <StoreBadges className="justify-center" height={46} />
-        </motion.div>
+        </m.div>
 
-        <motion.h1
+        <m.h1
           {...RISE}
-          transition={{ duration: 0.7, delay: 0.08, ease }}
+          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease }}
           className="t-hero mt-10 max-w-[693px] text-ink"
         >
           You don't need another app. You need fewer.
-        </motion.h1>
+        </m.h1>
 
-        <motion.p
+        <m.p
           {...RISE}
-          transition={{ duration: 0.7, delay: 0.16, ease }}
+          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease }}
           className="t-lead mt-2 max-w-[661px] text-slate-body"
         >
           Lima replaces the six apps your routine is scattered across, and comes with an AI
           assistant that logs things for you.
-        </motion.p>
+        </m.p>
 
-        <motion.div
+        <m.div
           {...RISE}
-          transition={{ duration: 0.7, delay: 0.24, ease }}
+          transition={{ duration: DURATION.verySlow, delay: 3 * DURATION.micro, ease }}
           className="mt-8 flex justify-center"
         >
           <PillButton size="lg" href="#features">
             See how it works
           </PillButton>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Full-bleed on phones (646 of 398), capped to the 1252 content on desktop. */}
@@ -110,23 +110,23 @@ export default function Hero() {
           {PHONES.map((p, i) => (
             // Outer node carries the scroll sink, inner one the entrance spring,
             // so the two animations drive separate transforms and never fight.
-            <motion.div
+            <m.div
               key={p.src}
               className={'absolute ' + p.className}
               style={{ y: sink[i] }}
             >
-              <motion.img
+              <m.img
                 src={p.src}
                 alt={p.alt}
                 className="block w-full"
                 initial={{ opacity: 0, y: 110 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  opacity: { duration: 0.45, delay: p.delay, ease: 'easeOut' },
+                  opacity: { duration: DURATION.verySlow, delay: p.delay, ease: 'easeOut' },
                   y: { type: 'spring', stiffness: 130, damping: 16, mass: 0.9, delay: p.delay },
                 }}
               />
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { EASE as ease } from '../motion.js'
-import { AnimatePresence, motion } from 'motion/react'
+import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
+import { AnimatePresence, m } from 'motion/react'
 import { Check, ChevronDown, Globe } from 'lucide-react'
 
 
@@ -43,7 +43,7 @@ export default function LanguageMenu() {
       >
         <Globe className="size-[27px]" strokeWidth={1.6} />
         <ChevronDown
-          className={`size-[23px] transition-transform duration-300 ease-expo ${
+          className={`size-[23px] transition-transform duration-250 ease-expo ${
             open ? '-rotate-180' : ''
           }`}
           strokeWidth={1.6}
@@ -52,20 +52,25 @@ export default function LanguageMenu() {
 
       <AnimatePresence>
         {open && (
-          <motion.ul
+          <m.ul
             role="menu"
             className="absolute right-0 top-[calc(100%+12px)] z-50 w-[184px] origin-top-right overflow-hidden rounded-2xl border border-ink/10 bg-white p-1.5 will-change-[transform,opacity] shadow-[0_24px_50px_-24px_rgba(20,41,0,0.45)]"
-            initial={{ opacity: 0, y: -8, scale: 0.96 }}
+            initial={{ opacity: 0, y: -DISTANCE.base, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.96 }}
-            transition={{ duration: 0.22, ease }}
+            exit={{
+              opacity: 0,
+              y: -DISTANCE.base,
+              scale: 0.99,
+              transition: { duration: DURATION.quick, ease },
+            }}
+            transition={{ duration: DURATION.fast, ease }}
           >
             {LANGUAGES.map((lang, i) => (
-              <motion.li
+              <m.li
                 key={lang.code}
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.04 + i * 0.04, duration: 0.24, ease }}
+                transition={{ delay: i * DURATION.stagger, duration: DURATION.quick, ease }}
               >
                 <button
                   type="button"
@@ -86,9 +91,9 @@ export default function LanguageMenu() {
                     <Check className="size-4 text-[#295200]" strokeWidth={2.6} aria-hidden="true" />
                   )}
                 </button>
-              </motion.li>
+              </m.li>
             ))}
-          </motion.ul>
+          </m.ul>
         )}
       </AnimatePresence>
     </div>

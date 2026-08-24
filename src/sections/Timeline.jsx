@@ -1,5 +1,5 @@
-import { motion } from 'motion/react'
-import { EASE } from '../motion.js'
+import { m } from 'motion/react'
+import { DURATION, EASE } from '../motion.js'
 import { Check } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
 
@@ -14,12 +14,14 @@ const ROWS = [
           <p className="shrink-0 text-xs leading-[17px] text-ink-deep">2.5 / 4L</p>
         </div>
         <div className="mt-[7px] h-[7px] w-full overflow-hidden rounded-full bg-lime-mist">
-          <motion.div
-            className="h-full rounded-full bg-[#d2ff1f]"
-            initial={{ width: 0 }}
-            whileInView={{ width: '62%' }}
+          {/* Fixed width, animated with scaleX — animating width itself would
+              relayout the row on every frame. */}
+          <m.div
+            className="h-full w-[62%] origin-left rounded-full bg-[#d2ff1f]"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.9 }}
-            transition={{ duration: 1, delay: 0.15, ease: EASE }}
+            transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
           />
         </div>
       </>
@@ -72,13 +74,13 @@ const ROWS = [
         */}
         <span className="relative text-[13px] font-medium leading-5 text-ink-deep">
           Leg day
-          <motion.span
+          <m.span
             aria-hidden="true"
             className="absolute left-0 top-1/2 h-[1.5px] w-full origin-left -translate-y-1/2 rounded-full bg-ink-deep"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.9 }}
-            transition={{ duration: 0.55, delay: 0.25, ease: EASE }}
+            transition={{ duration: DURATION.verySlow, delay: DURATION.fast, ease: EASE }}
           />
         </span>
         <p className="ml-auto shrink-0 rounded bg-[#f5f08a] px-1.5 py-0.5 text-[10px] font-semibold leading-[13px] text-ink-deep">
@@ -130,13 +132,13 @@ export default function Timeline() {
 
             <ol className="mt-[33px] space-y-[23px]">
               {ROWS.map((row, i) => (
-                <motion.li
+                <m.li
                   key={row.time}
                   className="flex gap-3 tablet:gap-[13px]"
-                  initial={{ opacity: 0, y: 18 }}
+                  initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.5, delay: i * 0.07, ease: EASE }}
+                  transition={{ duration: DURATION.verySlow, delay: i * DURATION.stagger, ease: EASE }}
                 >
                   <span className="w-[38px] shrink-0 pt-[15px] text-[11px] font-semibold leading-4 text-ink-deep tablet:w-[46px]">
                     {row.time}
@@ -147,7 +149,7 @@ export default function Timeline() {
                     </p>
                     {row.render()}
                   </div>
-                </motion.li>
+                </m.li>
               ))}
             </ol>
           </div>

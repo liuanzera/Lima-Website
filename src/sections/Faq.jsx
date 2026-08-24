@@ -57,7 +57,7 @@ export default function Faq() {
                 <summary className="flex cursor-pointer list-none items-center gap-4 text-base font-semibold leading-6 text-ink-deep [&::-webkit-details-marker]:hidden">
                   <span className="flex-1">{q}</span>
                   <Plus
-                    className="size-5 shrink-0 text-[#97a511] transition-transform duration-300 group-open:rotate-45"
+                    className="size-5 shrink-0 text-[#97a511] transition-transform duration-250 group-open:rotate-45"
                     strokeWidth={2}
                     aria-hidden="true"
                   />

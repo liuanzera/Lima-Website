@@ -1,7 +1,8 @@
-import { motion } from 'motion/react'
-import { EASE } from '../motion.js'
+import { m } from 'motion/react'
+import { DISTANCE, DURATION, EASE } from '../motion.js'
 
-const OFFSET = { up: { y: 28 }, left: { x: -28 }, right: { x: 28 }, none: {} }
+const D = DISTANCE.medium
+const OFFSET = { up: { y: D }, left: { x: -D }, right: { x: D }, none: {} }
 
 /**
  * Scroll-in reveal. `from` picks the direction, `delay` staggers siblings.
@@ -15,14 +16,14 @@ export default function Reveal({
   as = 'div',
   amount = 0.35,
 }) {
-  const Tag = motion[as] ?? motion.div
+  const Tag = m[as] ?? m.div
   return (
     <Tag
       className={className}
       initial={{ opacity: 0, ...OFFSET[from] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, amount }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      transition={{ duration: DURATION.verySlow, delay, ease: EASE }}
     >
       {children}
     </Tag>

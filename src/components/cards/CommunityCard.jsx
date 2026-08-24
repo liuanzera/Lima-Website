@@ -1,5 +1,5 @@
-import { motion } from 'motion/react'
-import { EASE } from '../../motion.js'
+import { useState } from 'react'
+import { m } from 'motion/react'
 
 /** The 84 cells, in the exact order the Figma grid uses. */
 const CELLS =
@@ -11,6 +11,8 @@ const LEVELS = ['rgba(14,28,0,0.08)', '#ddffbb', '#baff75', '#d2ff1f']
 
 /** Community profile card: avatar, handle and the 84-day consistency grid. */
 export default function CommunityCard() {
+  const [on, setOn] = useState(false)
+
   return (
     <div className="w-full max-w-[532px] rounded-[32px] bg-white p-8">
       <div className="flex items-center gap-3">
@@ -23,21 +25,26 @@ export default function CommunityCard() {
         </div>
       </div>
 
-      <div className="mt-5 grid grid-cols-12 gap-[5px]" role="img" aria-label="84-day activity grid">
+      {/*
+        One cell at a time, left to right, 10ms apart. The grid animates in CSS
+        off a single class flip: 84 Motion values would be the heaviest thing on
+        the page, while 84 keyframe animations cost the main thread nothing.
+      */}
+      <m.div
+        className={`heatmap mt-5 grid grid-cols-12 gap-[5px] ${on ? 'is-on' : ''}`}
+        role="img"
+        aria-label="84-day activity grid"
+        viewport={{ once: true, amount: 0.4 }}
+        onViewportEnter={() => setOn(true)}
+      >
         {CELLS.map((level, i) => (
-          <motion.span
+          <span
             key={i}
             className="aspect-square rounded-[4px]"
-            style={{ background: LEVELS[level] }}
-            initial={{ opacity: 0, scale: 0.6 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.4 }}
-            // One cell at a time, left to right: 84 x 10ms fills the grid in
-            // well under a second.
-            transition={{ duration: 0.22, delay: i * 0.01, ease: EASE }}
+            style={{ background: LEVELS[level], '--cell': i }}
           />
         ))}
-      </div>
+      </m.div>
 
       <p className="mt-4 text-xs leading-4 text-ink-deep/70">
         Each profile's consistency, day by day. Straight from the app.
