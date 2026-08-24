@@ -11,8 +11,17 @@ import LanguageMenu, { LANGUAGES } from './LanguageMenu.jsx'
 const SHEET_EASE = [0.4, 0.3, 0, 1]
 const SHEET_DURATION = 0.72
 const SHEET = {
+  // Opening wipe: the panel rises with its top half clipped off.
   hidden: { y: '28dvh', clipPath: 'inset(55% 0% 0% 0%)' },
   shown: { y: '0dvh', clipPath: 'inset(0% 0% 0% 0%)' },
+  // Closing has to reach inset(100%) — leaving it at 55% keeps the bottom
+  // half of the list on screen right up to the moment it is unmounted, which
+  // is what made the close read as a stutter.
+  gone: {
+    y: '18dvh',
+    clipPath: 'inset(100% 0% 0% 0%)',
+    transition: { duration: 0.52, ease: SHEET_EASE },
+  },
 }
 
 const LINKS = [
@@ -111,7 +120,7 @@ export default function Nav() {
             className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-6 py-6 will-change-[transform,clip-path] [backface-visibility:hidden] desk:hidden"
             initial={SHEET.hidden}
             animate={SHEET.shown}
-            exit={SHEET.hidden}
+            exit={SHEET.gone}
             transition={{ duration: SHEET_DURATION, ease: SHEET_EASE }}
           >
             <div className="flex justify-end">

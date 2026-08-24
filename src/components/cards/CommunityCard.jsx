@@ -31,7 +31,9 @@ export default function CommunityCard() {
             initial={{ opacity: 0, scale: 0.6 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.32, delay: (i % 12) * 0.012 + Math.floor(i / 12) * 0.04 }}
+            // One cell at a time, left to right: 84 x 10ms fills the grid in
+            // well under a second.
+            transition={{ duration: 0.22, delay: i * 0.01, ease: [0.22, 1, 0.36, 1] }}
           />
         ))}
       </div>
