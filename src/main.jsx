@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { LazyMotion, MotionConfig, domAnimation } from 'motion/react'
 import App from './App.jsx'
 import './index.css'
-import { EASE } from './motion.js'
+import { EASE } from './motion-tokens.js'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

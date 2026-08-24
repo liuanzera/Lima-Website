@@ -1,21 +1,27 @@
 import StoreBadges from '../components/StoreBadges.jsx'
 
+// Nothing real is wired up behind these yet. Grep TODO to find every one.
+const TODO = '#' // TODO: replace with the real URL
+
 const COLUMNS = [
   {
     title: 'Legal',
     links: [
-      ['Terms of Use', '(in Portuguese)'],
-      ['Privacy Policy', '(in Portuguese)'],
-      ['Account Deletion'],
+      { label: 'Terms of Use', note: '(in Portuguese)', href: TODO },
+      { label: 'Privacy Policy', note: '(in Portuguese)', href: TODO },
+      { label: 'Account Deletion', href: TODO },
     ],
   },
-  { title: 'Contact', links: [['hello@getlima.app']] },
+  {
+    title: 'Contact',
+    links: [{ label: 'hello@getlima.app', href: 'mailto:hello@getlima.app' }],
+  },
 ]
 
 const SOCIAL = [
-  { icon: '/assets/ic-instagram.svg', label: 'Instagram @getlima.app' },
-  { icon: '/assets/ic-tiktok.svg', label: 'TikTok @getlima.app' },
-  { icon: '/assets/ic-x.svg', label: 'X @getlimaapp' },
+  { icon: '/assets/ic-instagram.svg', label: 'Instagram @getlima.app', href: TODO },
+  { icon: '/assets/ic-tiktok.svg', label: 'TikTok @getlima.app', href: TODO },
+  { icon: '/assets/ic-x.svg', label: 'X @getlimaapp', href: TODO },
 ]
 
 export default function Footer() {
@@ -40,10 +46,10 @@ export default function Footer() {
             <div key={col.title}>
               <h2 className="text-sm font-semibold leading-5 text-lime-soft">{col.title}</h2>
               <ul className="mt-3 space-y-2">
-                {col.links.map(([label, note]) => (
+                {col.links.map(({ label, note, href }) => (
                   <li key={label}>
                     <a
-                      href={label.includes('@') ? `mailto:${label}` : '#faq'}
+                      href={href}
                       className="text-sm leading-5 text-slate-faint transition-colors hover:text-lime"
                     >
                       {label}
@@ -61,7 +67,7 @@ export default function Footer() {
               {SOCIAL.map((s) => (
                 <li key={s.label}>
                   <a
-                    href="#top"
+                    href={s.href}
                     className="flex items-center gap-2 text-sm leading-5 text-slate-faint transition-colors hover:text-lime"
                   >
                     <img src={s.icon} alt="" aria-hidden="true" className="size-[18px]" />

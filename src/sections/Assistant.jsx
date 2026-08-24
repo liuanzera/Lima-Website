@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
+import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import {
   m,
   useMotionValueEvent,
@@ -72,13 +72,13 @@ export default function Assistant() {
       ? {
           initial: { opacity: 0, y: DISTANCE.medium },
           animate: arrived ? { opacity: 1, y: 0 } : { opacity: 0, y: DISTANCE.medium },
-          transition: { duration: DURATION.verySlow, delay, ease },
+          transition: { duration: DURATION.verySlow, delay, ease: EASE },
         }
       : {
           initial: { opacity: 0, y: DISTANCE.medium },
           whileInView: { opacity: 1, y: 0 },
           viewport: { once: true, amount: 0.3 },
-          transition: { duration: DURATION.verySlow, ease },
+          transition: { duration: DURATION.verySlow, ease: EASE },
         }
 
   return (
@@ -122,7 +122,7 @@ export default function Assistant() {
                 initial: { y: 32 },
                 whileInView: { y: 0 },
                 viewport: { once: true, amount: 0.2 },
-                transition: { duration: DURATION.verySlow, ease },
+                transition: { duration: DURATION.verySlow, ease: EASE },
               })}
         />
 

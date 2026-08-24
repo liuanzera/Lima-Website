@@ -1,5 +1,5 @@
 import { m } from 'motion/react'
-import { DISTANCE, DURATION, EASE } from '../motion.js'
+import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 
 const D = DISTANCE.medium
 const OFFSET = { up: { y: D }, left: { x: -D }, right: { x: D }, none: {} }

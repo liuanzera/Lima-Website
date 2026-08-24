@@ -1,5 +1,5 @@
 import { m } from 'motion/react'
-import { DURATION, EASE } from '../../motion.js'
+import { DURATION, EASE } from '../../motion-tokens.js'
 
 const LINES = [
   { label: 'Groceries', value: 'R$ 340', width: '68%', color: '#d2ff1f' },
@@ -10,7 +10,7 @@ const LINES = [
 /** "Spending by category · July" card from the Money row. */
 export default function SpendingCard() {
   return (
-    <div className="w-full max-w-[532px] rounded-[32px] bg-white p-8">
+    <div className="card">
       <p className="text-[11px] font-semibold uppercase leading-4 tracking-[0.14em] text-ink-deep">
         Spending by category · July
       </p>

@@ -1,5 +1,5 @@
 import { m } from 'motion/react'
-import { DURATION, EASE } from '../motion.js'
+import { DURATION, EASE } from '../motion-tokens.js'
 import { Check } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
 

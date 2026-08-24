@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
+import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { AnimatePresence, m } from 'motion/react'
 import { Check, ChevronDown, Globe } from 'lucide-react'
 
@@ -11,10 +11,12 @@ export const LANGUAGES = [
   { code: 'pt', label: 'Português' },
 ]
 
-/** Globe dropdown in the desktop and tablet nav. */
-export default function LanguageMenu() {
+/**
+ * Globe dropdown in the desktop and tablet nav. The selection is owned by Nav
+ * so the mobile sheet's picker and this one stay in sync.
+ */
+export default function LanguageMenu({ value, onChange }) {
   const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState('en')
   const ref = useRef(null)
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function LanguageMenu() {
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label={`Language: ${LANGUAGES.find((l) => l.code === current).label}`}
+        aria-label={`Language: ${LANGUAGES.find((l) => l.code === value).label}`}
         className="flex items-center gap-0.5 rounded-full px-1 py-1 text-ink/80 transition-colors hover:text-ink"
       >
         <Globe className="size-[27px]" strokeWidth={1.6} />
@@ -61,33 +63,33 @@ export default function LanguageMenu() {
               opacity: 0,
               y: -DISTANCE.base,
               scale: 0.99,
-              transition: { duration: DURATION.quick, ease },
+              transition: { duration: DURATION.quick, ease: EASE },
             }}
-            transition={{ duration: DURATION.fast, ease }}
+            transition={{ duration: DURATION.fast, ease: EASE }}
           >
             {LANGUAGES.map((lang, i) => (
               <m.li
                 key={lang.code}
                 initial={{ opacity: 0, x: -6 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * DURATION.stagger, duration: DURATION.quick, ease }}
+                transition={{ delay: i * DURATION.stagger, duration: DURATION.quick, ease: EASE }}
               >
                 <button
                   type="button"
                   role="menuitemradio"
-                  aria-checked={current === lang.code}
+                  aria-checked={value === lang.code}
                   onClick={() => {
-                    setCurrent(lang.code)
+                    onChange(lang.code)
                     setOpen(false)
                   }}
                   className={`flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-[15px] font-medium tracking-[-0.02em] transition-colors ${
-                    current === lang.code
+                    value === lang.code
                       ? 'bg-lime-mist text-ink'
                       : 'text-ink/75 hover:bg-lime-mist/60 hover:text-ink'
                   }`}
                 >
                   <span className="flex-1">{lang.label}</span>
-                  {current === lang.code && (
+                  {value === lang.code && (
                     <Check className="size-4 text-[#295200]" strokeWidth={2.6} aria-hidden="true" />
                   )}
                 </button>

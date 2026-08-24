@@ -3,7 +3,7 @@ import { AnimatePresence, m } from 'motion/react'
 import { Check, ChevronDown, Menu, X } from 'lucide-react'
 import PillButton from './PillButton.jsx'
 import LanguageMenu, { LANGUAGES } from './LanguageMenu.jsx'
-import { DISTANCE, DURATION, EASE } from '../motion.js'
+import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 
 // Opening geometry lifted from the Swup parallel-transition the client picked:
 // the panel rises with its top clipped away. Travel and duration are dialled
@@ -89,7 +89,7 @@ export default function Nav() {
         </nav>
 
         <div className="hidden items-center gap-4 desk:flex">
-          <LanguageMenu />
+          <LanguageMenu value={lang} onChange={setLang} />
           <PillButton size="sm" href="#features">
             See how it works
           </PillButton>

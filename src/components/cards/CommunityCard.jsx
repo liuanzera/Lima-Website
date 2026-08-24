@@ -14,7 +14,7 @@ export default function CommunityCard() {
   const [on, setOn] = useState(false)
 
   return (
-    <div className="w-full max-w-[532px] rounded-[32px] bg-white p-8">
+    <div className="card">
       <div className="flex items-center gap-3">
         <span className="font-display grid size-9 place-items-center rounded-full bg-lime-pale text-sm text-ink-deep">
           C

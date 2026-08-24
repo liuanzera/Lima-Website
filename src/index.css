@@ -120,6 +120,15 @@
     }
   }
 
+  /* The white panel every module card sits on. */
+  .card {
+    width: 100%;
+    max-width: 532px;
+    border-radius: 32px;
+    background: #fff;
+    padding: 32px;
+  }
+
   /* Fluid type ramps: mobile value -> Figma desktop value, no zoom hack. */
   .t-hero {
     font-size: clamp(2.35rem, 1.1rem + 4.4vw, 4rem);

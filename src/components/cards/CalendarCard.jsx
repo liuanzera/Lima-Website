@@ -7,7 +7,7 @@ const EVENTS = [
 /** "Calendar · Thursday" card from the Integrations row. */
 export default function CalendarCard() {
   return (
-    <div className="w-full max-w-[532px] rounded-[32px] bg-white p-8">
+    <div className="card">
       <p className="text-[11px] font-semibold uppercase leading-4 tracking-[0.14em] text-ink-deep">
         Calendar · Thursday
       </p>

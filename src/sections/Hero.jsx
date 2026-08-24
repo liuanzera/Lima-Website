@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { DISTANCE, DURATION, EASE as ease } from '../motion.js'
+import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
 import StoreBadges from '../components/StoreBadges.jsx'
@@ -72,13 +72,13 @@ export default function Hero() {
       className="relative overflow-hidden bg-page pt-[153px] desk:pt-[169px]"
     >
       <div className="shell flex flex-col items-center text-center">
-        <m.div {...RISE} transition={{ duration: DURATION.verySlow, ease }}>
+        <m.div {...RISE} transition={{ duration: DURATION.verySlow, ease: EASE }}>
           <StoreBadges className="justify-center" height={46} />
         </m.div>
 
         <m.h1
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease }}
+          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
           className="t-hero mt-10 max-w-[693px] text-ink"
         >
           You don't need another app. You need fewer.
@@ -86,7 +86,7 @@ export default function Hero() {
 
         <m.p
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease }}
+          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease: EASE }}
           className="t-lead mt-2 max-w-[661px] text-slate-body"
         >
           Lima replaces the six apps your routine is scattered across, and comes with an AI
@@ -95,7 +95,7 @@ export default function Hero() {
 
         <m.div
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: 3 * DURATION.micro, ease }}
+          transition={{ duration: DURATION.verySlow, delay: 3 * DURATION.micro, ease: EASE }}
           className="mt-8 flex justify-center"
         >
           <PillButton size="lg" href="#features">

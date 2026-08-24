@@ -1,5 +1,4 @@
-import { m } from 'motion/react'
-import { DISTANCE, DURATION, EASE } from '../motion.js'
+import { DURATION } from '../motion-tokens.js'
 import PillButton from '../components/PillButton.jsx'
 import Reveal from '../components/Reveal.jsx'
 import SpendingCard from '../components/cards/SpendingCard.jsx'
@@ -53,15 +52,9 @@ export default function Modules() {
                   </p>
                 </Reveal>
 
-                <m.div
-                  className={flip ? 'desk:order-1' : undefined}
-                  initial={{ opacity: 0, y: DISTANCE.medium }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
-                >
+                <Reveal delay={DURATION.micro} amount={0.3} className={flip ? 'desk:order-1' : undefined}>
                   <Card />
-                </m.div>
+                </Reveal>
               </div>
             ))}
           </div>
