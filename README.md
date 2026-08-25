@@ -38,17 +38,11 @@ Os cards (timeline, gastos, agenda, heatmap de 84 dias) são HTML — não image
 
 ## Onde mexer
 
-| Quero mudar | Arquivo |
-| --- | --- |
-| Texto de uma seção | `src/sections/<Seção>.jsx` — cada arquivo abre com o nome do frame do Figma que ele reproduz |
-| Preços, planos | `src/sections/Pricing.jsx` (e a resposta correspondente em `Faq.jsx`) |
-| Perguntas do FAQ | array `ITEMS` em `src/sections/Faq.jsx` |
-| Links do rodapé | arrays `COLUMNS` / `SOCIAL` em `src/sections/Footer.jsx` — os `href: TODO` ainda são placeholders |
-| Idiomas do seletor | `LANGUAGES` em `src/components/LanguageMenu.jsx` (a seleção mora no `Nav`, então os dois seletores ficam em sincronia) |
-| Cores, fontes, breakpoints | bloco `@theme` em `src/index.css` |
-| Duração/curva de qualquer animação | `src/motion-tokens.js` — o CSS espelha a curva em `--ease-expo` (utilitário `ease-expo`) |
-| Estilo dos cards brancos | classe `.card` em `src/index.css` |
-| Revelação padrão ao rolar | `src/components/Reveal.jsx` — use ele em vez de escrever um `whileInView` novo |
-
-Animações fora desse padrão (hero, celular da assistência, heatmap) estão comentadas
-no próprio arquivo explicando por que fogem da regra.
+| Arquivo | O quê |
+|---|---|
+| `src/components/Nav.jsx` | barra do topo (logo, links desktop, CTA, hamburguer) |
+| `src/components/MenuSheet.jsx` | menu fullscreen do mobile + a coreografia dele |
+| `src/hooks.js` | scroll suave, direção do scroll, detecção de mobile |
+| `src/links.js` | rótulos e destinos do menu |
+| `src/motion-tokens.js` | durações, distâncias e a curva padrão |
+| `src/scale.js` | `px()` / `pxMin()` — números crus do Figma × `--s` |
