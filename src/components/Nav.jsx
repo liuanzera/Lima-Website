@@ -72,7 +72,7 @@ const LINKS = [
 // No rule at rest — it wipes in from the left on hover/focus. The entry you
 // picked keeps it, and turns lime.
 const LINK_BASE =
-  "relative inline-block font-display text-[34px] font-semibold transition-colors duration-250 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-250 after:ease-expo after:content-['']"
+  "relative inline-block font-display text-[39px] font-semibold leading-[1.04] transition-colors duration-250 after:absolute after:-bottom-1 after:left-0 after:h-[3px] after:w-full after:origin-left after:rounded-full after:bg-lime after:transition-transform after:duration-250 after:ease-expo after:content-['']"
 
 // Ignore sub-pixel scroll jitter, otherwise the bar flickers between states.
 const JITTER = 4
@@ -239,7 +239,7 @@ export default function Nav() {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-6 py-6 will-change-transform [backface-visibility:hidden] desk:hidden"
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-8 pb-[99px] pt-6 will-change-transform [backface-visibility:hidden] desk:hidden"
             variants={SHEET}
             initial="hidden"
             animate="shown"
@@ -260,8 +260,10 @@ export default function Nav() {
               The panel itself scrolls, not the list — expanding Language must
               push the CTA down instead of being clipped behind it.
             */}
-            <nav aria-label="Mobile" className="mt-14">
-              <ul className="flex flex-col gap-8">
+            <nav aria-label="Mobile" className="mt-[108px]">
+              {/* The frame's 61px pitch: a 41px row, 4px of slot padding so descenders
+                  are not clipped by the mask, and 16px of gap. */}
+              <ul className="flex flex-col gap-4">
                 {LINKS.map((l, i) => (
                   <li key={l.label} className="overflow-hidden py-0.5">
                     <m.div variants={ROW}>
@@ -292,11 +294,11 @@ export default function Nav() {
                       type="button"
                       onClick={() => setLangOpen((v) => !v)}
                       aria-expanded={langOpen}
-                      className="flex items-center gap-3 font-display text-[34px] font-semibold text-white transition-colors duration-250 hover:text-lime"
+                      className="flex items-center gap-[13px] font-display text-[39px] font-semibold leading-[1.04] text-white transition-colors duration-250 hover:text-lime"
                     >
                       Language
                       <ChevronDown
-                        className={`size-7 transition-transform duration-250 ease-expo ${
+                        className={`h-[13px] w-6 transition-transform duration-250 ease-expo ${
                           langOpen ? '-rotate-180' : ''
                         }`}
                         strokeWidth={2.2}
@@ -346,11 +348,13 @@ export default function Nav() {
               </ul>
             </nav>
 
-            <m.div className="mt-auto pb-2 pt-12" variants={FOOT}>
-              <PillButton tone="lime" size="md" href="#pricing" onClick={() => setOpen(false)}>
+            <m.div className="mt-auto pt-12" variants={FOOT}>
+              <PillButton tone="lime" size="menu" href="#pricing" onClick={() => setOpen(false)}>
                 Download the app
               </PillButton>
-              <p className="mt-6 text-sm text-slate-faint">© 2026 Lima. All rights reserved.</p>
+              <p className="mt-5 text-[15px] leading-[1.7] text-[#a3a7a0]">
+                © 2026 Lima. All rights reserved.
+              </p>
             </m.div>
           </m.div>
         )}

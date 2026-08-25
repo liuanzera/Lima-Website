@@ -63,6 +63,15 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /*
+      The hero lets its phone cluster bleed past both edges on purpose, so the
+      page is always wider than the viewport. overflow-x: hidden on body alone
+      does not stop touch panning on iOS — clip does, because it never creates
+      a scroll container at all. hidden stays first as the fallback for Safari
+      below 16, and clip must sit on html, not only body.
+    */
+    overflow-x: hidden;
+    overflow-x: clip;
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -82,6 +91,7 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    overflow-x: clip;
   }
   h1,
   h2,

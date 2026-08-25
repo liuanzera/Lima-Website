@@ -12,12 +12,15 @@ const TONES = {
 }
 
 const SIZES = {
-  sm: { shell: 'h-[52px] pl-6 pr-[6px] text-[15px]', dot: 'size-10' },
-  md: { shell: 'h-[58px] pl-7 pr-[7px] text-[17px]', dot: 'size-11' },
-  lg: { shell: 'h-[66px] pl-8 pr-[8px] text-xl', dot: 'size-[50px]' },
+  sm: { shell: 'h-[52px] gap-4 pl-6 pr-[6px] text-[15px]', dot: 'size-10' },
+  md: { shell: 'h-[58px] gap-4 pl-7 pr-[7px] text-[17px]', dot: 'size-11' },
+  lg: { shell: 'h-[66px] gap-4 pl-8 pr-[8px] text-xl', dot: 'size-[50px]' },
+  // The open-menu frame draws a wider gap and a squarer left inset.
+  menu: { shell: 'h-[62px] gap-[21px] pl-[25px] pr-[6px] text-[17px]', dot: 'size-[49px]' },
   // Hero CTA: 59px tall in the phone frames, 67px from the tablet frame up.
   hero: {
-    shell: 'h-[59px] pl-6 pr-[6px] text-base tablet:h-[67px] tablet:pl-8 tablet:pr-[8px] tablet:text-xl',
+    shell:
+      'h-[59px] gap-4 pl-6 pr-[6px] text-base tablet:h-[67px] tablet:pl-8 tablet:pr-[8px] tablet:text-xl',
     dot: 'size-11 tablet:size-[51px]',
   },
 }
@@ -36,7 +39,7 @@ export default function PillButton({
   return (
     <a
       href={href}
-      className={`group inline-flex shrink-0 items-center gap-4 rounded-full font-semibold tracking-[-0.025em] transition-colors duration-250 ${t.shell} ${s.shell} ${className}`}
+      className={`group inline-flex shrink-0 items-center rounded-full font-semibold tracking-[-0.025em] transition-colors duration-250 ${t.shell} ${s.shell} ${className}`}
       {...rest}
     >
       <span>{children}</span>
