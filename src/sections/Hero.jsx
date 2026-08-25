@@ -85,7 +85,11 @@ const SPRING = {
  */
 function useSink(progress, distance, start, spring, enabled) {
   const raw = useTransform(progress, [start, 1], [0, enabled ? distance : 0])
-  return useSpring(raw, spring)
+  const settled = useSpring(raw, spring)
+  // Clamped at zero: an elastic spring overshoots on the way back too, and the
+  // handsets rest flush with the top of the cluster's clip box — any negative
+  // value lifts them past it and shears their top edge off.
+  return useTransform(settled, (v) => (v < 0 ? 0 : v))
 }
 
 export default function Hero() {
