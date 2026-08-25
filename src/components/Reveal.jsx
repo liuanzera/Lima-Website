@@ -15,11 +15,13 @@ export default function Reveal({
   className,
   as = 'div',
   amount = 0.35,
+  style,
 }) {
   const Tag = m[as] ?? m.div
   return (
     <Tag
       className={className}
+      style={style}
       initial={{ opacity: 0, ...OFFSET[from] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, amount }}

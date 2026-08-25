@@ -3,6 +3,7 @@ import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
 import StoreBadges, { STORE } from '../components/StoreBadges.jsx'
+import { ArrowUpRight } from 'lucide-react'
 
 const RISE = { initial: { opacity: 0, y: DISTANCE.medium }, animate: { opacity: 1, y: 0 } }
 
@@ -110,23 +111,12 @@ export default function Hero() {
             className="group hidden items-center gap-4 rounded-full px-6 py-5 text-xl font-semibold tracking-[-0.025em] text-ink transition-colors duration-250 hover:text-ink-deep tablet:inline-flex"
           >
             See how it works
-            {/*
-              The frame's arrow is a filled 12x12 glyph, not a hairline icon —
-              lucide's outlined version renders far too light next to the label.
-              The viewBox is the rotated arrow's exact extent, so the 12px box
-              holds the glyph edge to edge instead of clipping its tip and tail.
-            */}
-            <svg
-              viewBox="-0.36 -0.51 12.87 12.87"
-              className="size-3 shrink-0 transition-transform duration-250 ease-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            {/* Sized in em so the arrow always matches the label's cap height. */}
+            <ArrowUpRight
+              className="size-[1em] shrink-0 transition-transform duration-250 ease-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              strokeWidth={2}
               aria-hidden="true"
-            >
-              <path
-                d="M0.8 5.05h6.4V2.2L11.4 6 7.2 9.8V6.95H0.8V5.05Z"
-                transform="rotate(-45 6 6)"
-                fill="currentColor"
-              />
-            </svg>
+            />
           </a>
         </m.div>
 
