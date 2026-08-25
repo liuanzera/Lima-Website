@@ -162,8 +162,16 @@
   }
 
   /* Fluid type ramps: mobile value -> Figma desktop value, no zoom hack. */
+  /*
+    Fitted to the frames, not guessed: 48.06px at 398 and 49.15px at 412 give
+    the slope, and it caps at the 64px every frame from the tablet up uses.
+    The phone frames wrap this into three lines, which only happens at 48.
+  */
   .t-hero {
-    font-size: clamp(2.35rem, 1.1rem + 4.4vw, 4rem);
+    font-size: clamp(48.06px, 17.06px + 7.79vw, 4rem);
+    /* h1 inherits text-wrap: balance from the base layer, which splits this
+       into four even lines. The frames wrap it greedily into three. */
+    text-wrap: normal;
     line-height: 1.04;
     letter-spacing: -0.02em;
     font-weight: 900;

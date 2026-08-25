@@ -2,6 +2,9 @@ import { m } from 'motion/react'
 import { DURATION, EASE } from '../../motion-tokens.js'
 import { px, pxMin } from '../../scale.js'
 
+// See Timeline.jsx: the trigger cannot live on a zero-width bar.
+const GROW = { hidden: { scaleX: 0 }, shown: { scaleX: 1 } }
+
 // Bar widths are the frame's own fills over the 466px track.
 const LINES = [
   { label: 'Groceries', value: 'R$ 340', width: '68%', color: '#d2ff1f' },
@@ -30,25 +33,26 @@ export default function SpendingCard() {
               <span className="font-medium leading-[1.43] text-ink-deep">{line.label}</span>
               <span className="leading-[1.43] text-ink-deep">{line.value}</span>
             </div>
-            <div
+            <m.div
               className="w-full overflow-hidden rounded-full bg-lime-mist"
               style={{ marginTop: px(6), height: px(8) }}
+              initial="hidden"
+              whileInView="shown"
+              viewport={{ once: true, amount: 0.6 }}
             >
               {/* scaleX rather than width: a width tween relayouts the card
                   on every frame, a transform stays on the compositor. */}
               <m.div
                 className="h-full origin-left rounded-full"
                 style={{ background: line.color, width: line.width }}
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true, amount: 0.8 }}
+                variants={GROW}
                 transition={{
                   duration: DURATION.verySlow,
                   delay: DURATION.micro + i * DURATION.stagger,
                   ease: EASE,
                 }}
               />
-            </div>
+            </m.div>
           </li>
         ))}
       </ul>

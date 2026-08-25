@@ -4,6 +4,14 @@ import { Check } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
 import { px, pxMin } from '../scale.js'
 
+/*
+  whileInView observes the element it is placed on. A bar at scaleX(0) has zero
+  width, and a zero-area target never satisfies an IntersectionObserver
+  threshold, so it would sit unfilled forever. The trigger therefore lives on
+  the parent — which always has area — and the bar follows as a variant.
+*/
+const GROW = { hidden: { scaleX: 0 }, shown: { scaleX: 1 } }
+
 const ROWS = [
   {
     time: '07:30',
@@ -142,9 +150,12 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
                   <Check className="size-[62%] text-ink" strokeWidth={3} aria-hidden="true" />
                 </span>
               )}
-              <p
+              <m.p
                 className="relative font-bold leading-[1.2] text-ink"
                 style={{ fontSize: pxMin(18, 13.61) }}
+                initial="hidden"
+                whileInView="shown"
+                viewport={{ once: true, amount: 0.6 }}
               >
                 {title}
                 {/* Done task: the rule wipes across the label on scroll-in, the
@@ -154,13 +165,11 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
                     aria-hidden="true"
                     className="absolute left-0 top-1/2 w-full origin-left -translate-y-1/2 rounded-full bg-ink"
                     style={{ height: px(2) }}
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true, amount: 0.9 }}
+                    variants={GROW}
                     transition={{ duration: DURATION.verySlow, delay: DURATION.fast, ease: EASE }}
                   />
                 )}
-              </p>
+              </m.p>
             </div>
           )}
         </div>
@@ -189,25 +198,26 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
       </div>
 
       {bar && (
-        <div
+        <m.div
           className="w-full overflow-hidden rounded-full bg-lime-snow"
           style={{ marginTop: px(16), height: px(7) }}
+          initial="hidden"
+          whileInView="shown"
+          viewport={{ once: true, amount: 0.6 }}
         >
           {/* Fixed width, animated with scaleX — animating width itself would
               relayout the row on every frame. */}
           <m.div
             className="h-full origin-left rounded-full bg-[#66cc00]"
             style={{ width: bar }}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.9 }}
+            variants={GROW}
             transition={{
               duration: DURATION.verySlow,
               delay: DURATION.micro,
               ease: EASE,
             }}
           />
-        </div>
+        </m.div>
       )}
 
       {chat && (
