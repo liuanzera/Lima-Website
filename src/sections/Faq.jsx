@@ -54,7 +54,7 @@ export default function Faq() {
           {ITEMS.map(([q, a], i) => (
             <Reveal key={q} delay={Math.min(i * 0.05, 0.25)} amount={0.2}>
               <details className="faq-item group rounded-2xl border border-ink-deep/10 bg-white px-5 py-4">
-                <summary className="flex cursor-pointer list-none items-center gap-4 text-xl font-semibold leading-[1.4] text-ink-deep [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-center gap-4 text-base font-semibold leading-6 tablet:text-xl tablet:leading-[1.4] text-ink-deep [&::-webkit-details-marker]:hidden">
                   <span className="flex-1">{q}</span>
                   <Plus
                     className="size-5 shrink-0 text-[#6f7a0c] transition-transform duration-250 group-open:rotate-45"
@@ -62,7 +62,7 @@ export default function Faq() {
                     aria-hidden="true"
                   />
                 </summary>
-                <p className="mt-3 text-base leading-[1.6] text-ink-deep/85">{a}</p>
+                <p className="mt-3 text-sm leading-[23px] tablet:text-base tablet:leading-[1.6] text-ink-deep/85">{a}</p>
               </details>
             </Reveal>
           ))}
