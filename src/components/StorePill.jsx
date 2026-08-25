@@ -10,6 +10,12 @@ const PLAY = [
   ['#FBBC04', 'M40 42H55.8389L24.1611 59.2788L40 42Z'],
 ]
 
+/** The phone's own store, so the mobile hero shows a single relevant badge. */
+export const STORE =
+  typeof navigator !== 'undefined' && /android/i.test(navigator.userAgent)
+    ? 'googleplay'
+    : 'appstore'
+
 const STORES = {
   appstore: {
     label: 'Download on the App Store',

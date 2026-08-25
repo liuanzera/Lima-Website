@@ -1,4 +1,4 @@
-import useSmoothScroll from './useSmoothScroll.js'
+import { useSmoothScroll } from './hooks.js'
 import Nav from './components/Nav.jsx'
 import Hero from './sections/Hero.jsx'
 import Marquee from './sections/Marquee.jsx'

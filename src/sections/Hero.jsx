@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
-import StoreBadges, { STORE } from '../components/StoreBadges.jsx'
-import StorePill from '../components/StorePill.jsx'
+import StoreBadges from '../components/StoreBadges.jsx'
+import StorePill, { STORE } from '../components/StorePill.jsx'
+import { useIsMobile } from '../hooks.js'
 import { ArrowUpRight } from 'lucide-react'
 
 const RISE = {
@@ -46,19 +47,6 @@ const PHONES = [
     drift: 150,
   },
 ]
-
-const MOBILE = '(max-width: 767px)'
-
-function useIsMobile() {
-  const [is, setIs] = useState(() => window.matchMedia(MOBILE).matches)
-  useEffect(() => {
-    const mq = window.matchMedia(MOBILE)
-    const sync = () => setIs(mq.matches)
-    mq.addEventListener('change', sync)
-    return () => mq.removeEventListener('change', sync)
-  }, [])
-  return is
-}
 
 /*
   On phones the three handsets travel the same distance and start within a
