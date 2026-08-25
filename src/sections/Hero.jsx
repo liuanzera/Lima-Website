@@ -2,7 +2,8 @@ import { useRef } from 'react'
 import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
-import StoreBadges from '../components/StoreBadges.jsx'
+import StoreBadges, { STORE } from '../components/StoreBadges.jsx'
+import { ArrowUpRight } from 'lucide-react'
 
 const RISE = { initial: { opacity: 0, y: DISTANCE.medium }, animate: { opacity: 1, y: 0 } }
 
@@ -69,43 +70,66 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="relative overflow-hidden bg-page pt-[153px] desk:pt-[169px]"
+      className="relative overflow-hidden bg-page pt-[181px] desk:pt-[169px]"
     >
       <div className="shell flex flex-col items-center text-center">
-        <m.div {...RISE} transition={{ duration: DURATION.verySlow, ease: EASE }}>
-          <StoreBadges className="justify-center" height={46} />
-        </m.div>
-
         <m.h1
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
-          className="t-hero mt-10 max-w-[693px] text-ink"
+          transition={{ duration: DURATION.verySlow, ease: EASE }}
+          className="t-hero max-w-[693px] text-ink"
         >
           You don't need another app. You need fewer.
         </m.h1>
 
         <m.p
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease: EASE }}
+          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
           className="t-lead mt-2 max-w-[661px] text-slate-body"
         >
           Lima replaces the six apps your routine is scattered across, and comes with an AI
           assistant that logs things for you.
         </m.p>
 
+        {/*
+          Phone frames pair the CTA with the visitor's own store badge; from the
+          tablet frame up that badge moves to its own row below and the slot
+          holds the secondary "See how it works" link instead.
+        */}
+        <m.div
+          {...RISE}
+          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease: EASE }}
+          className="mt-8 flex items-center justify-center gap-[9px] tablet:gap-4"
+        >
+          <PillButton size="hero" href="#pricing">
+            Download for free
+          </PillButton>
+
+          <StoreBadges className="tablet:hidden" height={46} only={STORE} />
+
+          <a
+            href="#features"
+            className="group hidden items-center gap-4 rounded-full px-6 py-5 text-xl font-semibold tracking-[-0.025em] text-ink transition-colors duration-250 hover:text-ink-deep tablet:inline-flex"
+          >
+            See how it works
+            <ArrowUpRight
+              className="size-3 transition-transform duration-250 ease-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              strokeWidth={2.6}
+              aria-hidden="true"
+            />
+          </a>
+        </m.div>
+
         <m.div
           {...RISE}
           transition={{ duration: DURATION.verySlow, delay: 3 * DURATION.micro, ease: EASE }}
-          className="mt-8 flex justify-center"
+          className="mt-8 hidden justify-center tablet:flex"
         >
-          <PillButton size="lg" href="#features">
-            See how it works
-          </PillButton>
+          <StoreBadges height={58} gap={12} />
         </m.div>
       </div>
 
       {/* Full-bleed on phones (646 of 398), capped to the 1252 content on desktop. */}
-      <div className="relative mx-auto mt-[52px] w-[162.3%] max-w-none -translate-x-[19.15%] overflow-hidden [aspect-ratio:646/259] tablet:mt-[42px] tablet:[aspect-ratio:1252/398] tablet:w-[min(1252px,calc(100vw-164px))] tablet:translate-x-0">
+      <div className="relative mx-auto mt-[52px] w-[162.3%] max-w-none -translate-x-[19.15%] overflow-hidden [aspect-ratio:646/259] tablet:mt-[66px] tablet:[aspect-ratio:1252/398] tablet:w-[min(1252px,calc(100vw-164px))] tablet:translate-x-0">
         <div className="absolute inset-x-0 top-0" style={{ aspectRatio: '1252 / 1005' }}>
           {PHONES.map((p, i) => (
             // Outer node carries the scroll sink, inner one the entrance spring,

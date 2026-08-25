@@ -15,7 +15,7 @@ export default function Pricing() {
       <div className="shell">
         <Reveal className="mx-auto max-w-[493px] text-center">
           <h2 className="font-display text-[clamp(2.5rem,1.4rem+4.4vw,4.5rem)] font-black leading-[1.2] text-ink">
-            What it costs?
+            What does it cost?
           </h2>
           <p className="mt-1 text-[clamp(1rem,0.9rem+0.4vw,1.25rem)] leading-[1.5] tracking-[-0.025em] text-slate-body">
             Same app on both plans. Free has a daily limit on the assistant, Pro has none.
@@ -39,12 +39,12 @@ export default function Pricing() {
             </p>
 
             <p className="mt-8 text-base font-medium leading-[1.5] tracking-[-0.03em] text-slate-body">
-              Calendar, habits, focus, journal, money,community and the AI assistant. All of it.The
+              Calendar, habits, focus, journal, money, community and the AI assistant. All of it. The
               AI has a daily usage limit.
             </p>
 
             <PillButton size="sm" href="#download" className="mt-10 self-start">
-              Dowload for free
+              Download for free
             </PillButton>
           </Reveal>
 

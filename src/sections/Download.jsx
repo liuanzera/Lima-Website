@@ -27,7 +27,7 @@ export default function Download() {
         </p>
         <div className="mt-6 flex justify-center desk:mt-8">
           <PillButton size="lg" href="#pricing">
-            Dowload for free
+            Download for free
           </PillButton>
         </div>
       </Reveal>

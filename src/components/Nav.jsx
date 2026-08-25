@@ -169,8 +169,8 @@ export default function Nav() {
 
           <div className="hidden items-center gap-4 desk:flex">
             <LanguageMenu value={lang} onChange={setLang} dark={pinned} />
-            <PillButton size="sm" href="#features" tone={pinned ? 'lime' : 'dark'}>
-              See how it works
+            <PillButton size="sm" href="#pricing" tone={pinned ? 'lime' : 'dark'}>
+              Download for free
             </PillButton>
           </div>
 
@@ -182,7 +182,7 @@ export default function Nav() {
               tone={pinned ? 'lime' : 'dark'}
               className="max-[380px]:hidden"
             >
-              Dowload app
+              Download app
             </PillButton>
             <button
               type="button"
@@ -325,7 +325,7 @@ export default function Nav() {
               transition={{ delay: 0.5, duration: 0.5, ease: SHEET_EASE }}
             >
               <PillButton tone="lime" size="md" href="#pricing" onClick={() => setOpen(false)}>
-                Dowload the app
+                Download the app
               </PillButton>
               <p className="mt-6 text-sm text-slate-faint">© 2026 Lima. All rights reserved.</p>
             </m.div>

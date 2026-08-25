@@ -27,8 +27,8 @@ const ITEMS = [
     'Eight: Calendar, Habits, Focus (Pomodoro), Journal, Notes, Money, Community and an AI Assistant. Money covers expense tracking, income, budgets by category, savings goals, recurring bills and monthly reports. The AI Assistant is in all plans. Free has a daily limit; Pro removes it.',
   ],
   [
-    'When is Lima coming to the App Store and Google Play?',
-    'Soon. The app is in final testing. Register interest and follow updates at getlima.app.',
+    'Where can I download Lima?',
+    'Lima is available on the App Store and Google Play. Same app, same features, on both.',
   ],
 ]
 
@@ -57,7 +57,7 @@ export default function Faq() {
                 <summary className="flex cursor-pointer list-none items-center gap-4 text-base font-semibold leading-6 text-ink-deep [&::-webkit-details-marker]:hidden">
                   <span className="flex-1">{q}</span>
                   <Plus
-                    className="size-5 shrink-0 text-[#97a511] transition-transform duration-250 group-open:rotate-45"
+                    className="size-5 shrink-0 text-[#6f7a0c] transition-transform duration-250 group-open:rotate-45"
                     strokeWidth={2}
                     aria-hidden="true"
                   />

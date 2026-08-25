@@ -15,6 +15,11 @@ const SIZES = {
   sm: { shell: 'h-[52px] pl-6 pr-[6px] text-[15px]', dot: 'size-10' },
   md: { shell: 'h-[58px] pl-7 pr-[7px] text-[17px]', dot: 'size-11' },
   lg: { shell: 'h-[66px] pl-8 pr-[8px] text-xl', dot: 'size-[50px]' },
+  // Hero CTA: 59px tall in the phone frames, 67px from the tablet frame up.
+  hero: {
+    shell: 'h-[59px] pl-6 pr-[6px] text-base tablet:h-[67px] tablet:pl-8 tablet:pr-[8px] tablet:text-xl',
+    dot: 'size-11 tablet:size-[51px]',
+  },
 }
 
 /** The pill CTA used across every frame: label + circular arrow badge. */
