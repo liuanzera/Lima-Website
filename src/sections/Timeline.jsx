@@ -2,17 +2,7 @@ import { m } from 'motion/react'
 import { DURATION, EASE } from '../motion-tokens.js'
 import { Check } from 'lucide-react'
 import Reveal from '../components/Reveal.jsx'
-
-// Every number below is the raw value from the "Tuesday with lima" frames,
-// scaled by --s (see .tuesday in index.css).
-const px = (n) => `calc(${n} * var(--s))`
-
-/**
- * The phone frame draws the smallest three roles slightly larger than a plain
- * scale-down would (8.95 / 13.61 / 11.93 instead of 7.9 / 11.8 / 10.5), so
- * they keep a floor of their own.
- */
-const pxMin = (n, floor) => `max(${floor}px, calc(${n} * var(--s)))`
+import { px, pxMin } from '../scale.js'
 
 const ROWS = [
   {

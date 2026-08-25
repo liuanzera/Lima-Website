@@ -131,12 +131,22 @@
   }
 
   /* The white panel every module card sits on. */
+  /*
+    Feature cards. The frames scale the whole box (532 -> 265 wide, padding
+    and radius halving with it), so the card gets the same --s treatment as
+    .tuesday. container-type queries the content box, which is why the
+    container lives on the wrapper and never on the padded card itself.
+  */
+  .card-scale {
+    container-type: inline-size;
+    --s: min(1px, 0.18797cqw);
+  }
   .card {
     width: 100%;
     max-width: 532px;
-    border-radius: 32px;
     background: #fff;
-    padding: 32px;
+    border-radius: calc(32 * var(--s, 1px));
+    padding: calc(32 * var(--s, 1px));
   }
 
   /*

@@ -35,10 +35,7 @@ export default function Modules() {
         <div className="rounded-[32px] bg-ink px-[clamp(20px,4vw,64px)] py-[clamp(48px,8vw,113px)]">
           <div className="flex flex-col gap-[clamp(56px,9vw,120px)]">
             {ROWS.map(({ eyebrow, title, body, Card, flip }, i) => (
-              <div
-                key={eyebrow}
-                className="grid items-center gap-8 desk:grid-cols-2 desk:gap-20"
-              >
+              <div key={eyebrow} className="grid items-center gap-8 desk:grid-cols-2 desk:gap-20">
                 <Reveal
                   from={flip ? 'right' : 'left'}
                   className={flip ? 'desk:order-2' : undefined}
@@ -52,7 +49,11 @@ export default function Modules() {
                   </p>
                 </Reveal>
 
-                <Reveal delay={DURATION.micro} amount={0.3} className={flip ? 'desk:order-1' : undefined}>
+                <Reveal
+                  delay={DURATION.micro}
+                  amount={0.3}
+                  className={`card-scale ${flip ? 'desk:order-1' : ''}`}
+                >
                   <Card />
                 </Reveal>
               </div>

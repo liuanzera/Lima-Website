@@ -1,9 +1,11 @@
 import { m } from 'motion/react'
 import { DURATION, EASE } from '../../motion-tokens.js'
+import { px, pxMin } from '../../scale.js'
 
+// Bar widths are the frame's own fills over the 466px track.
 const LINES = [
   { label: 'Groceries', value: 'R$ 340', width: '68%', color: '#d2ff1f' },
-  { label: 'Transport', value: 'R$ 215', width: '43%', color: '#baff75' },
+  { label: 'Transport', value: 'R$ 215', width: '42.9%', color: '#baff75' },
   { label: 'Leisure', value: 'R$ 128', width: '26%', color: '#ddffbb' },
 ]
 
@@ -11,18 +13,27 @@ const LINES = [
 export default function SpendingCard() {
   return (
     <div className="card">
-      <p className="text-[11px] font-semibold uppercase leading-4 tracking-[0.14em] text-ink-deep">
+      <p
+        className="font-semibold uppercase leading-[1.55] tracking-[0.14em] text-ink-deep"
+        style={{ fontSize: pxMin(10.88, 10) }}
+      >
         Spending by category · July
       </p>
 
-      <ul className="mt-5 space-y-4">
+      <ul className="flex flex-col" style={{ marginTop: px(8), gap: px(16) }}>
         {LINES.map((line, i) => (
           <li key={line.label}>
-            <div className="flex items-baseline justify-between gap-3">
-              <span className="text-sm font-medium leading-5 text-ink-deep">{line.label}</span>
-              <span className="text-sm leading-5 text-ink-deep">{line.value}</span>
+            <div
+              className="flex items-baseline justify-between"
+              style={{ gap: px(12), fontSize: pxMin(14, 10.28) }}
+            >
+              <span className="font-medium leading-[1.43] text-ink-deep">{line.label}</span>
+              <span className="leading-[1.43] text-ink-deep">{line.value}</span>
             </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-lime-mist">
+            <div
+              className="w-full overflow-hidden rounded-full bg-lime-mist"
+              style={{ marginTop: px(6), height: px(8) }}
+            >
               {/* scaleX rather than width: a width tween relayouts the card
                   on every frame, a transform stays on the compositor. */}
               <m.div
@@ -42,9 +53,19 @@ export default function SpendingCard() {
         ))}
       </ul>
 
-      <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl bg-lime-mist px-4 py-3">
-        <span className="text-sm leading-5 text-ink-deep">Goal: graduation trip</span>
-        <span className="font-display text-sm font-semibold leading-5 text-ink-deep">
+      <div
+        className="flex items-baseline justify-between bg-lime-mist"
+        style={{
+          marginTop: px(22),
+          gap: px(12),
+          borderRadius: px(16),
+          paddingBlock: px(14),
+          paddingInline: px(17),
+          fontSize: pxMin(14, 9.4),
+        }}
+      >
+        <span className="leading-[1.43] text-ink-deep">Goal: graduation trip</span>
+        <span className="font-display shrink-0 whitespace-nowrap font-semibold leading-[1.43] text-ink-deep">
           R$ 1,250 / 3,000
         </span>
       </div>
