@@ -5,29 +5,62 @@ import PillButton from './PillButton.jsx'
 import LanguageMenu, { LANGUAGES } from './LanguageMenu.jsx'
 import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 
-// Opening geometry lifted from the Swup parallel-transition the client picked:
-// the panel rises with its top clipped away.
-//
-// These run longer than the 400/350ms the motion tokens prescribe for a panel:
-// at token speed the wipe reads as a cut rather than a reveal. The curve is a
-// slow-settling expo-out, so most of the travel happens early and the last
-// stretch eases in almost imperceptibly — that is where the softness comes
-// from, not from the length alone.
-const SHEET_EASE = [0.16, 1, 0.3, 1]
-const SHEET_OPEN = 0.78
+/*
+  Menu choreography, mobile only (the sheet never renders above desk).
+
+  The sheet is a plain translateY — no clip-path, no opacity — so the whole
+  panel is one compositor transform. Rows rise out of an overflow-hidden slot,
+  which is what makes them read as revealed rather than slid over the panel.
+
+  Closing inverts the order: the rows leave upward first and the sheet only
+  starts moving 140ms later, so it never cuts through content that is still
+  on screen.
+*/
+const EASE_OUT = [0.22, 1, 0.36, 1]
+const EASE_INOUT = [0.65, 0, 0.35, 1]
+const EASE_IN = [0.55, 0.085, 0.68, 0.53]
+
 const SHEET = {
-  hidden: { y: '22dvh', opacity: 0, clipPath: 'inset(45% 0% 0% 0%)' },
-  shown: { y: '0dvh', opacity: 1, clipPath: 'inset(0% 0% 0% 0%)' },
-  // Closing has to reach inset(100%) — leaving it partway keeps the bottom of
-  // the list on screen right up to the moment it is unmounted, which is what
-  // made the close read as a stutter. Still shorter than the open: getting out
-  // of the way should never take as long as arriving.
-  gone: {
-    y: '12dvh',
-    opacity: 0,
-    clipPath: 'inset(100% 0% 0% 0%)',
-    transition: { duration: 0.62, ease: SHEET_EASE },
+  hidden: { y: '-100%' },
+  shown: {
+    y: '0%',
+    transition: {
+      duration: 0.72,
+      ease: EASE_OUT,
+      delayChildren: 0.16,
+      staggerChildren: 0.075,
+    },
   },
+  gone: {
+    y: '-100%',
+    transition: {
+      duration: 0.62,
+      ease: EASE_INOUT,
+      delay: 0.14,
+      staggerChildren: 0.04,
+    },
+  },
+}
+
+// Rows travel more than their own height so they clear the slot completely.
+const ROW = {
+  hidden: { y: '115%', opacity: 0 },
+  shown: {
+    y: '0%',
+    opacity: 1,
+    transition: { duration: 0.75, ease: EASE_OUT },
+  },
+  gone: {
+    y: '-60%',
+    opacity: 0,
+    transition: { duration: 0.32, ease: EASE_IN },
+  },
+}
+
+const FOOT = {
+  hidden: { opacity: 0, y: 12 },
+  shown: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE_OUT } },
+  gone: { opacity: 0, y: 10, transition: { duration: 0.22, ease: EASE_IN } },
 }
 
 const LINKS = [
@@ -206,11 +239,11 @@ export default function Nav() {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-6 py-6 will-change-[transform,clip-path,opacity] [backface-visibility:hidden] desk:hidden"
-            initial={SHEET.hidden}
-            animate={SHEET.shown}
-            exit={SHEET.gone}
-            transition={{ duration: SHEET_OPEN, ease: SHEET_EASE }}
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-6 py-6 will-change-transform [backface-visibility:hidden] desk:hidden"
+            variants={SHEET}
+            initial="hidden"
+            animate="shown"
+            exit="gone"
           >
             <div className="flex justify-end">
               <button
@@ -230,51 +263,46 @@ export default function Nav() {
             <nav aria-label="Mobile" className="mt-14">
               <ul className="flex flex-col gap-8">
                 {LINKS.map((l, i) => (
-                  <m.li
-                    key={l.label}
-                    initial={{ opacity: 0, x: -DISTANCE.medium }}
-                    animate={{ opacity: 1, x: 0 }}
-                    // Held back until the wipe has cleared the row, so the text
-                    // arrives with the panel instead of racing it.
-                    transition={{ delay: 0.24 + i * 0.06, duration: 0.5, ease: SHEET_EASE }}
-                  >
-                    <a
-                      href={l.href}
-                      onClick={() => {
-                        setActive(l.href)
-                        setOpen(false)
-                      }}
-                      aria-current={active === l.href ? 'true' : undefined}
-                      className={`${LINK_BASE} ${
-                        active === l.href
-                          ? 'text-lime after:scale-x-100'
-                          : 'text-white after:scale-x-0 hover:text-lime hover:after:scale-x-100 focus-visible:text-lime focus-visible:after:scale-x-100'
-                      }`}
-                    >
-                      {l.label}
-                    </a>
-                  </m.li>
+                  <li key={l.label} className="overflow-hidden py-0.5">
+                    <m.div variants={ROW}>
+                      <a
+                        href={l.href}
+                        onClick={() => {
+                          setActive(l.href)
+                          setOpen(false)
+                        }}
+                        aria-current={active === l.href ? 'true' : undefined}
+                        className={`${LINK_BASE} ${
+                          active === l.href
+                            ? 'text-lime after:scale-x-100'
+                            : 'text-white after:scale-x-0 hover:text-lime hover:after:scale-x-100 focus-visible:text-lime focus-visible:after:scale-x-100'
+                        }`}
+                      >
+                        {l.label}
+                      </a>
+                    </m.div>
+                  </li>
                 ))}
 
-                <m.li
-                  initial={{ opacity: 0, x: -DISTANCE.medium }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.42, duration: 0.5, ease: SHEET_EASE }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setLangOpen((v) => !v)}
-                    aria-expanded={langOpen}
-                    className="flex items-center gap-3 font-display text-[34px] font-semibold text-white transition-colors duration-250 hover:text-lime"
-                  >
-                    Language
-                    <ChevronDown
-                      className={`size-7 transition-transform duration-250 ease-expo ${
-                        langOpen ? '-rotate-180' : ''
-                      }`}
-                      strokeWidth={2.2}
-                    />
-                  </button>
+                <li>
+                  {/* Only the trigger is masked — the dropdown below it must
+                      be free to expand past the slot. */}
+                  <m.div className="overflow-hidden py-0.5" variants={ROW}>
+                    <button
+                      type="button"
+                      onClick={() => setLangOpen((v) => !v)}
+                      aria-expanded={langOpen}
+                      className="flex items-center gap-3 font-display text-[34px] font-semibold text-white transition-colors duration-250 hover:text-lime"
+                    >
+                      Language
+                      <ChevronDown
+                        className={`size-7 transition-transform duration-250 ease-expo ${
+                          langOpen ? '-rotate-180' : ''
+                        }`}
+                        strokeWidth={2.2}
+                      />
+                    </button>
+                  </m.div>
 
                   <AnimatePresence initial={false}>
                     {langOpen && (
@@ -314,16 +342,11 @@ export default function Nav() {
                       </m.ul>
                     )}
                   </AnimatePresence>
-                </m.li>
+                </li>
               </ul>
             </nav>
 
-            <m.div
-              className="mt-auto pb-2 pt-12"
-              initial={{ opacity: 0, y: DISTANCE.medium }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5, ease: SHEET_EASE }}
-            >
+            <m.div className="mt-auto pb-2 pt-12" variants={FOOT}>
               <PillButton tone="lime" size="md" href="#pricing" onClick={() => setOpen(false)}>
                 Download the app
               </PillButton>

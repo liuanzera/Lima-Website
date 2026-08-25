@@ -1,11 +1,15 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DISTANCE, DURATION, EASE } from '../motion-tokens.js'
 import { m, useReducedMotion, useScroll, useSpring, useTransform } from 'motion/react'
 import PillButton from '../components/PillButton.jsx'
 import StoreBadges, { STORE } from '../components/StoreBadges.jsx'
+import StorePill from '../components/StorePill.jsx'
 import { ArrowUpRight } from 'lucide-react'
 
-const RISE = { initial: { opacity: 0, y: DISTANCE.medium }, animate: { opacity: 1, y: 0 } }
+const RISE = {
+  initial: { opacity: 0, y: DISTANCE.medium },
+  animate: { opacity: 1, y: 0 },
+}
 
 /**
  * Frame "Desktop - 2" / "iPhone 16 - 1".
@@ -43,14 +47,45 @@ const PHONES = [
   },
 ]
 
+const MOBILE = '(max-width: 767px)'
+
+function useIsMobile() {
+  const [is, setIs] = useState(() => window.matchMedia(MOBILE).matches)
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE)
+    const sync = () => setIs(mq.matches)
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+  return is
+}
+
+/*
+  On phones the three handsets travel the same distance and start within a
+  breath of each other, so the cluster settles as one object. The desktop
+  behaviour — the centre phone sinking twice as far, so it reads as the handset
+  that resurfaces in the assistant section — makes the mobile layout look like
+  the phone is leaving for the next section, which is not what happens there.
+
+  The mobile spring is underdamped (12 against a critical ~17) so it overshoots
+  and settles back: that is the elastic part. The desktop one stays overdamped.
+*/
+const SPRING = {
+  desk: { stiffness: 90, damping: 18, mass: 0.6 },
+  mobile: { stiffness: 110, damping: 12, mass: 0.7 },
+}
+
 /**
  * Sinks with the scroll and never rises above the resting position, so the
  * handsets only ever travel downwards. Coming back to the top runs the spring
  * in reverse, which is where the elastic settle comes from.
+ *
+ * `start` is where in the scroll the phone begins to move — the side handsets
+ * pick it up a hair after the centre one on mobile.
  */
-function useSink(progress, distance, enabled) {
-  const raw = useTransform(progress, [0, 1], [0, enabled ? distance : 0])
-  return useSpring(raw, { stiffness: 90, damping: 18, mass: 0.6 })
+function useSink(progress, distance, start, spring, enabled) {
+  const raw = useTransform(progress, [start, 1], [0, enabled ? distance : 0])
+  return useSpring(raw, spring)
 }
 
 export default function Hero() {
@@ -61,10 +96,19 @@ export default function Hero() {
     offset: ['start start', 'end start'],
   })
 
-  const centerY = useSink(scrollYProgress, PHONES[0].drift, !reduced)
-  const leftY = useSink(scrollYProgress, PHONES[1].drift, !reduced)
-  const rightY = useSink(scrollYProgress, PHONES[2].drift, !reduced)
+  const mobile = useIsMobile()
+  const spring = mobile ? SPRING.mobile : SPRING.desk
+  // Mobile: same travel for all three, sides trailing the centre by 5% of the
+  // scroll. Desktop keeps the frame's staggered drift.
+  const drift = (i) => (mobile ? 150 : PHONES[i].drift)
+  const start = (i) => (mobile && i > 0 ? 0.05 : 0)
+
+  const centerY = useSink(scrollYProgress, drift(0), start(0), spring, !reduced)
+  const leftY = useSink(scrollYProgress, drift(1), start(1), spring, !reduced)
+  const rightY = useSink(scrollYProgress, drift(2), start(2), spring, !reduced)
   const sink = [centerY, leftY, rightY]
+  // Entrance: the centre leads by one micro beat, then both sides together.
+  const enter = (i) => (mobile ? (i === 0 ? 0 : DURATION.micro) : PHONES[i].delay)
 
   return (
     <section
@@ -83,7 +127,11 @@ export default function Hero() {
 
         <m.p
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: DURATION.micro, ease: EASE }}
+          transition={{
+            duration: DURATION.verySlow,
+            delay: DURATION.micro,
+            ease: EASE,
+          }}
           className="t-lead mt-2 max-w-[661px] text-slate-body"
         >
           Lima replaces the six apps your routine is scattered across, and comes with an AI
@@ -97,14 +145,18 @@ export default function Hero() {
         */}
         <m.div
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: 2 * DURATION.micro, ease: EASE }}
+          transition={{
+            duration: DURATION.verySlow,
+            delay: 2 * DURATION.micro,
+            ease: EASE,
+          }}
           className="mt-8 flex items-center justify-center gap-[9px] tablet:gap-4"
         >
           <PillButton size="hero" href="#pricing">
             Download for free
           </PillButton>
 
-          <StoreBadges className="tablet:hidden" height={46} only={STORE} />
+          <StorePill store={STORE} className="tablet:hidden" />
 
           <a
             href="#features"
@@ -122,7 +174,11 @@ export default function Hero() {
 
         <m.div
           {...RISE}
-          transition={{ duration: DURATION.verySlow, delay: 3 * DURATION.micro, ease: EASE }}
+          transition={{
+            duration: DURATION.verySlow,
+            delay: 3 * DURATION.micro,
+            ease: EASE,
+          }}
           className="mt-8 hidden justify-center tablet:flex"
         >
           <StoreBadges height={58} gap={12} />
@@ -135,11 +191,7 @@ export default function Hero() {
           {PHONES.map((p, i) => (
             // Outer node carries the scroll sink, inner one the entrance spring,
             // so the two animations drive separate transforms and never fight.
-            <m.div
-              key={p.src}
-              className={'absolute ' + p.className}
-              style={{ y: sink[i] }}
-            >
+            <m.div key={p.src} className={'absolute ' + p.className} style={{ y: sink[i] }}>
               <m.img
                 src={p.src}
                 alt={p.alt}
@@ -147,8 +199,18 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 110 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
-                  opacity: { duration: DURATION.verySlow, delay: p.delay, ease: 'easeOut' },
-                  y: { type: 'spring', stiffness: 130, damping: 16, mass: 0.9, delay: p.delay },
+                  opacity: {
+                    duration: DURATION.verySlow,
+                    delay: enter(i),
+                    ease: 'easeOut',
+                  },
+                  y: {
+                    type: 'spring',
+                    stiffness: 130,
+                    damping: 16,
+                    mass: 0.9,
+                    delay: enter(i),
+                  },
                 }}
               />
             </m.div>

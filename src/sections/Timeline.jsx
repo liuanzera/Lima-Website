@@ -1,7 +1,7 @@
-import { m } from "motion/react";
-import { DURATION, EASE } from "../motion-tokens.js";
-import { Check } from "lucide-react";
-import Reveal from "../components/Reveal.jsx";
+import { m } from 'motion/react'
+import { DURATION, EASE } from '../motion-tokens.js'
+import { Check } from 'lucide-react'
+import Reveal from '../components/Reveal.jsx'
 
 // Every number below is the raw value from the "Tuesday with lima" frames,
 // scaled by --s (see .tuesday in index.css).
@@ -12,79 +12,69 @@ const px = (n) => `calc(${n} * var(--s))`
  * scale-down would (8.95 / 13.61 / 11.93 instead of 7.9 / 11.8 / 10.5), so
  * they keep a floor of their own.
  */
-const pxMin = (n, floor) => `max(${floor}px, calc(${n} * var(--s)))`;
+const pxMin = (n, floor) => `max(${floor}px, calc(${n} * var(--s)))`
 
 const ROWS = [
   {
-    time: "07:30",
-    label: "Habits",
-    title: "Drink 4L of water",
-    value: "2.5 / 4L",
-    bar: "64.2%", // 463 of 721 in the frame
+    time: '07:30',
+    label: 'Habits',
+    title: 'Drink 4L of water',
+    value: '2.5 / 4L',
+    bar: '64.2%', // 463 of 721 in the frame
   },
   {
-    time: "09:00",
-    label: "Focus",
-    title: "Study anatomy",
-    value: "25:00",
-    note: "Pomodoro done. Third session this week.",
+    time: '09:00',
+    label: 'Focus',
+    title: 'Study anatomy',
+    value: '25:00',
+    note: 'Pomodoro done. Third session this week.',
   },
   {
-    time: "12:40",
-    label: "Assistant · WhatsApp",
+    time: '12:40',
+    label: 'Assistant · WhatsApp',
     chat: {
-      sent: "spent 32.90 on lunch",
-      reply:
-        "Logged: R$ 32.90 under Food. That's R$ 418 in this category so far this month.",
+      sent: 'spent 32.90 on lunch',
+      reply: "Logged: R$ 32.90 under Food. That's R$ 418 in this category so far this month.",
     },
   },
   {
-    time: "19:00",
-    label: "Calendar",
-    title: "Leg day",
+    time: '19:00',
+    label: 'Calendar',
+    title: 'Leg day',
     check: true,
-    badge: "12-day streak",
+    badge: '12-day streak',
   },
   {
-    time: "22:10",
-    label: "Journal",
+    time: '22:10',
+    label: 'Journal',
     title: '"Long day, but I closed everything. Earlier start tomorrow."',
-    note: "Mood: calm · 214 words",
+    note: 'Mood: calm · 214 words',
   },
-];
+]
 
 /** Frames "Tuesday with lima" — the day laid out as a timeline of app cards. */
 export default function Timeline() {
   return (
-    <section
-      id="features"
-      className="relative z-10 bg-page py-[clamp(56px,7vw,94px)]"
-    >
+    <section id="features" className="relative z-10 bg-page py-[clamp(56px,7vw,94px)]">
       <div className="shell">
         <Reveal className="mx-auto max-w-[808px] text-center">
           <h2 className="t-h2 text-ink">
             A day, one app at a
-            <br className="hidden tablet:block" /> time.{" "}
+            <br className="hidden tablet:block" /> time.{' '}
             <span className="text-[#295200]">Except it isn't.</span>
           </h2>
           <p className="mt-4 text-[clamp(0.9375rem,0.85rem+0.4vw,1.25rem)] font-medium leading-[1.5] tracking-[-0.03em] text-slate-strong">
-            That shower plan got lost in the grocery list. By lunchtime, Lima
-            had tracked water usage, managed expenses, and set up tomorrow's
-            training. You've just made it through the day.
+            That shower plan got lost in the grocery list. By lunchtime, Lima had tracked water
+            usage, managed expenses, and set up tomorrow's training. You've just made it through the
+            day.
           </p>
         </Reveal>
 
         {/* The container sits outside the padding: container-type queries the
             content box, so padding on the container itself would shrink --s. */}
-        <Reveal
-          delay={0.1}
-          className="tuesday mx-auto mt-[clamp(41px,3.36vw,76px)] max-w-[924px]"
-        >
+        <Reveal delay={0.1} className="tuesday mx-auto mt-[clamp(41px,3.36vw,76px)] max-w-[924px]">
           <div className="rounded-[24px] bg-white" style={{ padding: px(40) }}>
-            <p
-              className="font-semibold leading-none text-ink-deep"
-              style={{ fontSize: px(15) }}
-            >
+            <p className="font-semibold leading-none text-ink-deep" style={{ fontSize: px(15) }}>
               What it looks like
             </p>
             <h3
@@ -94,10 +84,7 @@ export default function Timeline() {
               A Tuesday with Lima
             </h3>
 
-            <ol
-              className="flex flex-col"
-              style={{ marginTop: px(32), gap: px(32) }}
-            >
+            <ol className="flex flex-col" style={{ marginTop: px(32), gap: px(32) }}>
               {ROWS.map((row, i) => (
                 <m.li
                   key={row.time}
@@ -136,7 +123,7 @@ export default function Timeline() {
         </Reveal>
       </div>
     </section>
-  );
+  )
 }
 
 function Row({ label, title, value, bar, note, badge, check, chat }) {
@@ -152,10 +139,7 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
           </p>
 
           {title && (
-            <div
-              className="flex items-center"
-              style={{ marginTop: px(8), gap: px(10) }}
-            >
+            <div className="flex items-center" style={{ marginTop: px(8), gap: px(10) }}>
               {check && (
                 <span
                   className="grid shrink-0 place-items-center bg-[#8fff1f]"
@@ -165,11 +149,7 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
                     borderRadius: px(7.2),
                   }}
                 >
-                  <Check
-                    className="size-[62%] text-ink"
-                    strokeWidth={3}
-                    aria-hidden="true"
-                  />
+                  <Check className="size-[62%] text-ink" strokeWidth={3} aria-hidden="true" />
                 </span>
               )}
               <p
@@ -267,5 +247,5 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
         </p>
       )}
     </>
-  );
+  )
 }
