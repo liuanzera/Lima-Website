@@ -153,10 +153,23 @@ function Row({ label, title, value, bar, note, badge, check, chat }) {
                 </span>
               )}
               <p
-                className="font-bold leading-[1.2] text-ink"
+                className="relative font-bold leading-[1.2] text-ink"
                 style={{ fontSize: pxMin(18, 13.61) }}
               >
                 {title}
+                {/* Done task: the rule wipes across the label on scroll-in, the
+                    same left-to-right reveal the habits bar uses above. */}
+                {check && (
+                  <m.span
+                    aria-hidden="true"
+                    className="absolute left-0 top-1/2 w-full origin-left -translate-y-1/2 rounded-full bg-ink"
+                    style={{ height: px(2) }}
+                    initial={{ scaleX: 0 }}
+                    whileInView={{ scaleX: 1 }}
+                    viewport={{ once: true, amount: 0.9 }}
+                    transition={{ duration: DURATION.verySlow, delay: DURATION.fast, ease: EASE }}
+                  />
+                )}
               </p>
             </div>
           )}
