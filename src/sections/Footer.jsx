@@ -82,7 +82,9 @@ export default function Footer() {
         <hr className="mt-10 border-white/15" />
 
         <div className="mt-8 flex flex-col gap-6">
-          <StoreBadges height={84} />
+          {/* Two 232px badges do not fit side by side on a phone, and the
+              mobile frame stacks them for exactly that reason. */}
+          <StoreBadges height={84} gap={17} className="max-tablet:flex-col" />
           <p className="text-lg leading-6 text-[#f5f5f4]">© 2026 Lima. All rights reserved.</p>
         </div>
       </div>
